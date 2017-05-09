@@ -7,18 +7,30 @@ public class Pan : MonoBehaviour {
 
 
     private Text text;
-
+    
     // Use this for initialization
     void Start () {
 
         text = FindObjectOfType<Text>();
+
         text.text = "I'm a pan";
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+	void Update ()
+    {
+        
+    }
 
+    // Verify the mouse is over the pan
+    void OnMouseOver()
+    {
+        CheckMousePositionAndMovePan();
+    }
+
+    // Move the pan with the mouse
+    private void CheckMousePositionAndMovePan()
+    {
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Input.mousePosition;
@@ -26,11 +38,10 @@ public class Pan : MonoBehaviour {
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             text.text = mousePos.ToString();
             mousePos.z = 0;
+
             transform.position = mousePos;
         }
         else
             text.text = "I'm a pan";
     }
-
-
 }
