@@ -31,6 +31,10 @@ public class Pan : MonoBehaviour {
     // Move the pan with the mouse
     private void CheckMousePositionAndMovePan()
     {
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+
+        float yOffset = collider.offset.y;
+
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Input.mousePosition;
@@ -38,6 +42,7 @@ public class Pan : MonoBehaviour {
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             text.text = mousePos.ToString();
             mousePos.z = 0;
+            mousePos.y = mousePos.y - yOffset;
 
             transform.position = mousePos;
         }
