@@ -5,16 +5,32 @@ using UnityEngine.UI;
 
 public class Pan : MonoBehaviour {
 
-    
-    // Use this for initialization
-	void Start () {
-        Text text = FindObjectOfType<Text>();
 
+    private Text text;
+
+    // Use this for initialization
+    void Start () {
+
+        text = FindObjectOfType<Text>();
         text.text = "I'm a pan";
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            text.text = mousePos.ToString();
+            mousePos.z = 0;
+            transform.position = mousePos;
+        }
+        else
+            text.text = "I'm a pan";
+    }
+
+
 }
