@@ -16,6 +16,8 @@ public class Bacon : MonoBehaviour {
     public float cookedTime;
     public float burnedTime;
 
+    private GameController gc;
+    
     private SpriteRenderer sprite;
     private Transform panTransform;
     private float yOffset;
@@ -53,7 +55,9 @@ public class Bacon : MonoBehaviour {
         timer.targetTime = cookedTime;
 
         panTransform = FindObjectOfType<Pan>().transform;
-	}
+
+        gc = FindObjectOfType<GameController>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -107,12 +111,20 @@ public class Bacon : MonoBehaviour {
             if((baconState == BaconState.baconCooked) && (currentTime > cookedTime))
             {
                 // Increase score
-                GameController gc;
-                gc = FindObjectOfType<GameController>();
                 gc.score++;
 
                 // Remove bacon from pan
                 Destroy(gameObject);
+            }
+            // If bacon burns
+            if (baconState == BaconState.baconBurned)
+            {
+                // Check fail count, increase fail count and destroy goBacon
+                if (gc.failCount < gc.maxFails)
+                {
+                    gc.failCount++;
+                    Destroy(gameObject);
+                }
             }
         }
     }

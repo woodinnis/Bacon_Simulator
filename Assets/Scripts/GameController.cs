@@ -5,8 +5,12 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public int score = 0;
+    public int failCount = 0;
+    public int maxFails = 0;
     public int maxStrips = 0;
+
     public Text scoreField;
+    public Text winLoseField;
 
     public GameObject bacon;
     public Transform panTransform;
@@ -35,6 +39,9 @@ public class GameController : MonoBehaviour {
         {
             MakinBacon();
         }
+
+        if (failCount >= maxFails)
+            winLoseField.text = "You Lose!";
     }
 
     // Place two pieces of bacon in the pan
