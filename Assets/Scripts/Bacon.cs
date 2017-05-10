@@ -21,7 +21,7 @@ public class Bacon : MonoBehaviour {
     private float yOffset;
 
     private Timer timer;
-    private Text textField;
+    public Text textField;
 
     void Awake()
     {
@@ -32,7 +32,7 @@ public class Bacon : MonoBehaviour {
         yOffset = transform.position.y;
 
         // Find a text field in the current scene
-        textField = FindObjectOfType<Text>();
+        //textField = FindObjectOfType<Text>();
 
         // Check for a timer component attached to the current object
         if((timer == null) && (GetComponent<Timer>() != null)){
@@ -107,9 +107,14 @@ public class Bacon : MonoBehaviour {
                 sprite.sprite = baconSprites[rawIndex];
                 timer.currentTime -= 5.0f;
             }
-            if((baconState == BaconState.baconFlipped) && (currentTime > cookedTime))
+            if((baconState == BaconState.baconCooked) && (currentTime > cookedTime))
             {
-                // Remove bacon from pan and increase score
+                // Increase score
+                GameController gc;
+                gc = FindObjectOfType<GameController>();
+                gc.score++;
+
+                // Remove bacon from pan
             }
         }
     }
