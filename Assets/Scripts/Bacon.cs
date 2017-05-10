@@ -44,22 +44,20 @@ public class Bacon : MonoBehaviour {
 
         textField.text = cookedTime.ToString();
 
-        //panTransform = FindObjectOfType<Pan>().transform;
+        panTransform = FindObjectOfType<Pan>().transform;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Vector3 v3 = panTransform.position;
-        //v3.y = v3.y + yOffset;
-        //transform.position = v3;
+        Vector3 v3 = panTransform.position;
+        v3.y = v3.y + yOffset;
+        transform.position = v3;
 
         // Update the displayed time
-        cookedTime = timer.targetTime;
-        textField.text = cookedTime.ToString();
+        float currentTime = timer.currentTime;
+        textField.text = currentTime.ToString();
 
-        //float remainingTime = timer.targetTime;
-
-        if (cookedTime <= 5.0f)
+        if (currentTime >= cookedTime)
         {
             sprite.sprite = baconSprites[cookedIndex];
         }

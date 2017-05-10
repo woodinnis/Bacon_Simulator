@@ -3,14 +3,16 @@ using System.Collections;
 
 public class Timer : MonoBehaviour {
 
+    [HideInInspector]
     public float targetTime;
-    
+    [HideInInspector]
+    public float currentTime = 0.0f;
 
 	// Update is called once per frame
 	void Update () {
-        targetTime -= Time.deltaTime;
+        currentTime += Time.deltaTime;
         
-        if(targetTime <= 0.0f)
+        if(currentTime >= targetTime)
         {
             timerEnded();
         }
