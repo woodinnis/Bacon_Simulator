@@ -9,6 +9,10 @@ public class Bacon : MonoBehaviour {
     public int cookedIndex;
     public int burnedIndex;
 
+    public enum BaconState { baconRaw, baconCooked, baconBurned };
+    [HideInInspector]
+    public BaconState baconState;
+
     public float cookedTime;
     public float burnedTime;
 
@@ -21,6 +25,10 @@ public class Bacon : MonoBehaviour {
 
     void Awake()
     {
+        // Set starting state of the bacon;
+        baconState = BaconState.baconRaw;
+
+        // Find Y-axis offset to maintain position relative to the pan
         yOffset = transform.position.y;
 
         // Find a text field in the current scene
@@ -53,6 +61,7 @@ public class Bacon : MonoBehaviour {
 	void Update () {
         Vector3 v3 = panTransform.position;
         v3.y = v3.y + yOffset;
+        v3.z = -1;
         transform.position = v3;
 
         // Update the displayed time
@@ -62,11 +71,15 @@ public class Bacon : MonoBehaviour {
         // Update the sprite based on the current timer
         if (currentTime > cookedTime)
         {
+            baconState = BaconState.baconCooked;
             sprite.sprite = baconSprites[cookedIndex];
+        //    textField.text = baconState.ToString();
         }
         if(currentTime >= burnedTime)
         {
+            baconState = BaconState.baconBurned;
             sprite.sprite = baconSprites[burnedIndex];
+        //    textField.text = baconState.ToString();
         }
 
     }
@@ -75,7 +88,15 @@ public class Bacon : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            sprite.sprite = baconSprites[cookedIndex];
+            float currentTime = timer.currentTime;
+
+            // If the player clicks a cooked piece of bacon, flip it over and cook the other side
+            // Take 5 seconds off the timer
+            if (currentTime > cookedTime && sprite.sprite == baconSprites[cookedIndex])
+            {
+                sprite.sprite = baconSprites[rawIndex];
+                timer.currentTime -= 5.0f;
+            }
         }
     }
 }
