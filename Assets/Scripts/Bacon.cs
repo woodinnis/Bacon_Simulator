@@ -7,6 +7,8 @@ public class Bacon : MonoBehaviour {
     public Sprite[] baconSprites;
     public int rawIndex = 0;
     public int cookedIndex;
+    public int burnedIndex;
+
     public float cookedTime;
     public float burnedTime;
 
@@ -57,9 +59,14 @@ public class Bacon : MonoBehaviour {
         float currentTime = timer.currentTime;
         textField.text = currentTime.ToString();
 
-        if (currentTime >= cookedTime)
+        // Update the sprite based on the current timer
+        if (currentTime > cookedTime)
         {
             sprite.sprite = baconSprites[cookedIndex];
+        }
+        if(currentTime >= burnedTime)
+        {
+            sprite.sprite = baconSprites[burnedIndex];
         }
 
     }
