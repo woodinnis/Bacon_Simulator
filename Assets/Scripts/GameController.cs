@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
     public int maxStrips = 0;
 
     public Text scoreField;
+    public Text failField;
     public Text winLoseField;
 
     public GameObject bacon;
@@ -34,6 +35,7 @@ public class GameController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         scoreField.text = score.ToString();
+        failField.text = failCount.ToString();
 
         if (!FindObjectOfType<Bacon>())
         {
