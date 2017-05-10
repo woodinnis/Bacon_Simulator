@@ -13,7 +13,7 @@ public class Pan : MonoBehaviour {
 
         text = FindObjectOfType<Text>();
 
-        text.text = "I'm a pan";
+        //text.text = "I'm a pan";
 	}
 	
 	// Update is called once per frame
@@ -40,13 +40,13 @@ public class Pan : MonoBehaviour {
             Vector3 mousePos = Input.mousePosition;
 
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            text.text = mousePos.ToString();
+            //text.text = mousePos.ToString();
             mousePos.z = 0;
             mousePos.y = mousePos.y - yOffset;
 
             transform.position = mousePos;
         }
-        else
-            text.text = "I'm a pan";
+        //else
+            //text.text = "I'm a pan";
     }
 }
