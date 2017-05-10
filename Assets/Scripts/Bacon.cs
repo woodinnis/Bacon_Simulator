@@ -9,7 +9,7 @@ public class Bacon : MonoBehaviour {
     public int cookedIndex;
     public int burnedIndex;
 
-    public enum BaconState { baconRaw, baconCooked, baconBurned };
+    public enum BaconState { baconRaw, baconFlipped, baconCooked, baconBurned };
     [HideInInspector]
     public BaconState baconState;
 
@@ -66,20 +66,28 @@ public class Bacon : MonoBehaviour {
 
         // Update the displayed time
         float currentTime = timer.currentTime;
-        textField.text = currentTime.ToString();
+        //textField.text = currentTime.ToString();
+        textField.text = baconState.ToString();
 
         // Update the sprite based on the current timer
-        if (currentTime > cookedTime)
+
+        // If Bacon has reached a cooked state, but not been flipped
+        if (currentTime > cookedTime && baconState == BaconState.baconRaw)
+        {
+            sprite.sprite = baconSprites[cookedIndex];
+        }
+        // If Bacon has reached a cooked state, and been flipped
+        else if(currentTime > cookedTime && baconState == BaconState.baconFlipped)
         {
             baconState = BaconState.baconCooked;
             sprite.sprite = baconSprites[cookedIndex];
-        //    textField.text = baconState.ToString();
         }
+
+        // If bacon has burned
         if(currentTime >= burnedTime)
         {
             baconState = BaconState.baconBurned;
             sprite.sprite = baconSprites[burnedIndex];
-        //    textField.text = baconState.ToString();
         }
 
     }
@@ -92,10 +100,16 @@ public class Bacon : MonoBehaviour {
 
             // If the player clicks a cooked piece of bacon, flip it over and cook the other side
             // Take 5 seconds off the timer
-            if (currentTime > cookedTime && sprite.sprite == baconSprites[cookedIndex])
+            if ((baconState == BaconState.baconRaw) && (currentTime > cookedTime) 
+                && sprite.sprite == baconSprites[cookedIndex])
             {
+                baconState = BaconState.baconFlipped;
                 sprite.sprite = baconSprites[rawIndex];
                 timer.currentTime -= 5.0f;
+            }
+            if((baconState == BaconState.baconFlipped) && (currentTime > cookedTime))
+            {
+                // Remove bacon from pan and increase score
             }
         }
     }
