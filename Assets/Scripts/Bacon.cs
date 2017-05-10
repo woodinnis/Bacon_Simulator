@@ -52,8 +52,6 @@ public class Bacon : MonoBehaviour {
         // Set timer based on slice time
         timer.targetTime = cookedTime;
 
-        textField.text = cookedTime.ToString();
-
         panTransform = FindObjectOfType<Pan>().transform;
 	}
 	
@@ -67,7 +65,7 @@ public class Bacon : MonoBehaviour {
         // Update the displayed time
         float currentTime = timer.currentTime;
         //textField.text = currentTime.ToString();
-        textField.text = baconState.ToString();
+        //textField.text = baconState.ToString();
 
         // Update the sprite based on the current timer
 
@@ -89,7 +87,6 @@ public class Bacon : MonoBehaviour {
             baconState = BaconState.baconBurned;
             sprite.sprite = baconSprites[burnedIndex];
         }
-
     }
 
     void OnMouseOver()
@@ -115,6 +112,7 @@ public class Bacon : MonoBehaviour {
                 gc.score++;
 
                 // Remove bacon from pan
+                Destroy(gameObject);
             }
         }
     }
