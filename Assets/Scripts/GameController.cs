@@ -16,8 +16,15 @@ public class GameController : MonoBehaviour {
     public GameObject bacon;
     public Transform panTransform;
 
+    public Button resetButton;
+
     public float yOffset1;
     public float yOffset2;
+
+    void Awake()
+    {
+        SetResetButtonState(false);
+    }
 
     // Use this for initialization
     void Start () {
@@ -31,7 +38,6 @@ public class GameController : MonoBehaviour {
         }
     }
 
-
     // Update is called once per frame
     void Update () {
         scoreField.text = score.ToString();
@@ -43,7 +49,10 @@ public class GameController : MonoBehaviour {
         }
 
         if (failCount >= maxFails)
+        {
             winLoseField.text = "You Lose!";
+            SetResetButtonState(true);
+        }
     }
 
     // Place two pieces of bacon in the pan
@@ -58,6 +67,37 @@ public class GameController : MonoBehaviour {
         Instantiate(bacon, v3, Quaternion.identity);
 
         Debug.Log("Bacon");
+    }
+
+    void SetResetButtonState(bool buttonState)
+    {
+        if (buttonState)
+        {
+            resetButton.enabled = true;
+            resetButton.image.enabled = true;
+            resetButton.GetComponentInChildren<Text>().enabled = true;
+        }
+        else
+        {
+            resetButton.enabled = false;
+            resetButton.image.enabled = false;
+            resetButton.GetComponentInChildren<Text>().enabled = false;
+        }
+    }
+
+    public void ResetGameState()
+    {
+        
+        foreach (Bacon b in FindObjectsOfType<Bacon>())
+        {
+            Debug.Log("Poof!");
+            Destroy(b.gameObject);
+        }
+
+        score = 0;
+        failCount = 0;
+        MakinBacon();
+        SetResetButtonState(false);
     }
 
     // This cannot check for a MouseOver of the pan, because the pan is a separate object
