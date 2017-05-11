@@ -7,10 +7,14 @@ public class Timer : MonoBehaviour {
     public float targetTime;
     [HideInInspector]
     public float currentTime = 0.0f;
+    [HideInInspector]
+    public bool isPaused = false;
+
 
 	// Update is called once per frame
 	void Update () {
-        currentTime += Time.deltaTime;
+        if(!isPaused)
+            currentTime += Time.deltaTime;
         
         if(currentTime >= targetTime)
         {

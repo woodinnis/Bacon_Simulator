@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour {
             Bacon[] b = FindObjectsOfType<Bacon>();
 
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            Debug.Log("Mouse Position: " + mousePos);
+            //Debug.Log("Mouse Position: " + mousePos);
 
             float newBaconLocation = 0.0f;
 

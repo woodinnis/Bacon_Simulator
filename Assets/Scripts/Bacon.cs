@@ -9,6 +9,7 @@ public class Bacon : MonoBehaviour {
     public int cookedIndex;
     public int burnedIndex;
 
+    [HideInInspector]
     public enum BaconState { baconRaw, baconFlipped, baconCooked, baconBurned };
     [HideInInspector]
     public BaconState baconState;
@@ -20,12 +21,11 @@ public class Bacon : MonoBehaviour {
     private GameController gc;
     
     private SpriteRenderer sprite;
-    private Transform panTransform;
-    private float yOffset;
+    //private Transform panTransform;
+    //private float yOffset;
 
     [HideInInspector]
     public Timer timer;
-    public Text textField;
 
     void Awake()
     {
@@ -63,15 +63,17 @@ public class Bacon : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 v3 = panTransform.position;
-        v3.y = v3.y + yOffset;
-        v3.z = -1;
-        transform.position = v3;
+
+        // Track the pan position and follow it
+        /*
+            Vector3 v3 = panTransform.position;
+            v3.y = v3.y + yOffset;
+            v3.z = -1;
+            transform.position = v3;
+        */
 
         // Update the displayed time
         float currentTime = timer.currentTime;
-        //textField.text = currentTime.ToString();
-        //textField.text = baconState.ToString();
 
         // Update the sprite based on the current timer
 
@@ -129,5 +131,23 @@ public class Bacon : MonoBehaviour {
                 }
             }
         }
+    }
+
+    void OnMouseDrag()
+    {
+        timer.isPaused = true;
+
+        Vector3 v3 = Vector3.zero;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        v3.x = 0.0f;
+        v3.y = mousePos.y;
+        transform.position = v3;
+    }
+    void OnMouseUp()
+    {
+        if (timer.isPaused)
+            timer.isPaused = false;
     }
 }
