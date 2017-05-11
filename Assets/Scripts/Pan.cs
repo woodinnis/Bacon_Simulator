@@ -3,29 +3,46 @@ using System.Collections;
 using UnityEngine.UI;
 
 
-public class Pan : MonoBehaviour {
+public class Pan : MonoBehaviour
+{
 
+    public float xOffset;
+    public float yOffset;
+    public Vector3 DefaultV3;
 
     private Text text;
-    
+
     // Use this for initialization
-    void Start () {
-
-        text = FindObjectOfType<Text>();
-
-        //text.text = "I'm a pan";
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    void Start()
     {
-        
+
+        //text = FindObjectOfType<Text>();
+
+        DefaultV3 = Vector3.zero;
+
+        DebugCurrentPanOffset();
+        //text.text = "I'm a pan";
     }
 
     // Verify the mouse is over the pan
     void OnMouseOver()
     {
         CheckMousePositionAndMovePan();
+
+        Vector3 V3 = transform.position;
+
+        // Check pan position and set offsets
+        xOffset = DefaultV3.x + V3.x;
+        yOffset = DefaultV3.y + V3.y;
+    }
+
+    void OnMouseUp()
+    {
+        DefaultV3 = transform.position;
+
+        xOffset = 0f;
+        yOffset = 0f;
+        DebugCurrentPanOffset();
     }
 
     // Move the pan with the mouse
@@ -47,6 +64,13 @@ public class Pan : MonoBehaviour {
             transform.position = mousePos;
         }
         //else
-            //text.text = "I'm a pan";
+        //text.text = "I'm a pan";
     }
+    private void DebugCurrentPanOffset()
+    {
+        Debug.Log("Default: " + DefaultV3.ToString());
+        Debug.Log("X Offset: " + xOffset);
+        Debug.Log("Y Offset: " + yOffset);
+    }
+
 }
