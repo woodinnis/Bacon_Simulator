@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
 
     public GameObject bacon;
     public Transform panTransform;
+    private Vector3 defaultPanPosition;
 
     public Button resetButton;
 
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour {
     void Start () {
         
         panTransform = FindObjectOfType<Pan>().transform;
+        defaultPanPosition = panTransform.position;
 
         // If no bacon exists in the scene, place bacon
         if (!FindObjectOfType<Bacon>())
@@ -93,6 +95,9 @@ public class GameController : MonoBehaviour {
             Debug.Log("Poof!");
             Destroy(b.gameObject);
         }
+
+        Pan pan = FindObjectOfType<Pan>();
+        pan.transform.position = defaultPanPosition;
 
         score = 0;
         failCount = 0;
