@@ -33,7 +33,7 @@ public class Bacon : MonoBehaviour {
         baconState = BaconState.baconRaw;
 
         // Find Y-axis offset to maintain position relative to the pan
-        yOffset = transform.position.y;
+        //yOffset = transform.position.y;
 
         // Find a text field in the current scene
         //textField = FindObjectOfType<Text>();
@@ -56,7 +56,7 @@ public class Bacon : MonoBehaviour {
         // Set timer based on slice time
         timer.targetTime = cookedTime;
 
-        panTransform = FindObjectOfType<Pan>().transform;
+        //panTransform = FindObjectOfType<Pan>().transform;
 
         gc = FindObjectOfType<GameController>();
     }
