@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
     // Pan values;
     public Transform panTransform;
     private Vector3 defaultPanPosition;
+    private Pan pan;
 
     public Button resetButton;
 
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour {
         panTransform = FindObjectOfType<Pan>().transform;
         defaultPanPosition = panTransform.position;
 
+        pan = FindObjectOfType<Pan>();
         // If no bacon exists in the scene, place bacon
         if (!FindObjectOfType<Bacon>())
         {
@@ -46,7 +48,8 @@ public class GameController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
         scoreField.text = score.ToString();
         failField.text = failCount.ToString();
 
@@ -59,6 +62,32 @@ public class GameController : MonoBehaviour {
         {
             winLoseField.text = "You Lose!";
             SetResetButtonState(true);
+        }
+
+        CheckBaconState();
+    }
+
+
+    private void CheckBaconState()
+    {
+        // Check for a mouse click
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            Bacon[] b = FindObjectsOfType<Bacon>();
+
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            Debug.Log("Mouse Position: " + mousePos);
+
+            float newBaconLocation = 0.0f;
+
+            // If less than the max number of strips are present in the scene spawn a new strip
+            if (b.Length <= maxStrips)
+            {
+                newBaconLocation = mousePos.y;
+
+                MakinBacon(newBaconLocation);
+            }
         }
     }
 
@@ -78,6 +107,13 @@ public class GameController : MonoBehaviour {
         Instantiate(bacon, v3, Quaternion.identity);
 
         Debug.Log("Bacon");
+    }
+
+    private void MakinBacon(float yOffset)
+    {
+        Vector3 v3 = panTransform.position;
+        v3.y = v3.y + yOffset;
+        Instantiate(bacon, v3, Quaternion.identity);
     }
 
     void SetResetButtonState(bool buttonState)
