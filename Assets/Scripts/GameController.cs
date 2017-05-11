@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour {
 
     public float yOffset1;
     public float yOffset2;
+    public float yOffset3;
 
     void Awake()
     {
@@ -70,6 +71,10 @@ public class GameController : MonoBehaviour {
 
         v3 = panTransform.transform.position;
         v3.y = v3.y + yOffset2;
+        Instantiate(bacon, v3, Quaternion.identity);
+
+        v3 = panTransform.transform.position;
+        v3.y = v3.y + yOffset3;
         Instantiate(bacon, v3, Quaternion.identity);
 
         Debug.Log("Bacon");

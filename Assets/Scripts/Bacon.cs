@@ -14,6 +14,7 @@ public class Bacon : MonoBehaviour {
     public BaconState baconState;
 
     public float cookedTime;
+    public float flippedTimeReduction;
     public float burnedTime;
 
     private GameController gc;
@@ -107,7 +108,7 @@ public class Bacon : MonoBehaviour {
             {
                 baconState = BaconState.baconFlipped;
                 sprite.sprite = baconSprites[rawIndex];
-                timer.currentTime -= 5.0f;
+                timer.currentTime -= flippedTimeReduction;
             }
             if((baconState == BaconState.baconCooked) && (currentTime > cookedTime))
             {
