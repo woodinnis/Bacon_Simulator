@@ -8,12 +8,16 @@ public class GameController : MonoBehaviour {
     public int failCount = 0;
     public int maxFails = 0;
     public int maxStrips = 0;
+    public float panOffsetCheck = 0.0f;
+    public float panShakeTimeReduction = 0.0f;
 
     public Text scoreField;
     public Text failField;
     public Text winLoseField;
 
     public GameObject bacon;
+
+    // Pan values;
     public Transform panTransform;
     private Vector3 defaultPanPosition;
 

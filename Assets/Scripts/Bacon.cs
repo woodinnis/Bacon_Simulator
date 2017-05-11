@@ -22,7 +22,8 @@ public class Bacon : MonoBehaviour {
     private Transform panTransform;
     private float yOffset;
 
-    private Timer timer;
+    [HideInInspector]
+    public Timer timer;
     public Text textField;
 
     void Awake()

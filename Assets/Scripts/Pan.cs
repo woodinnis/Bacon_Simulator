@@ -29,11 +29,26 @@ public class Pan : MonoBehaviour
     {
         CheckMousePositionAndMovePan();
 
+        GameController gc = FindObjectOfType<GameController>();
+        float offsetTest = gc.panOffsetCheck;
+
+        Bacon[] bacon;
+        bacon = FindObjectsOfType<Bacon>();
+
         Vector3 V3 = transform.position;
 
         // Check pan position and set offsets
         xOffset = DefaultV3.x + V3.x;
         yOffset = DefaultV3.y + V3.y;
+
+        if (xOffset >= offsetTest || yOffset >= offsetTest)
+        {
+            foreach(Bacon b in bacon)
+            {
+                b.timer.targetTime -= gc.panShakeTimeReduction;
+                Debug.Log("Time for " + b + " reduced to " + b.timer.targetTime);
+            }
+        }
     }
 
     void OnMouseUp()
