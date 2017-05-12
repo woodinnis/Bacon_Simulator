@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
     private Pan pan;
 
     public Button resetButton;
+    public Button quitButton;
 
     public float yOffset1;
     public float yOffset2;
@@ -64,7 +65,7 @@ public class GameController : MonoBehaviour {
             SetResetButtonState(true);
         }
 
-        CheckBaconState();
+        quitButton.onClick.AddListener(QuitGame);
     }
 
 
@@ -150,6 +151,12 @@ public class GameController : MonoBehaviour {
         SetResetButtonState(false);
     }
 
+
+    void QuitGame()
+    {
+        Debug.Log("QUIT!");
+        Application.Quit();
+    }
     // This cannot check for a MouseOver of the pan, because the pan is a separate object
     //void OnMouseOver()
     //{
