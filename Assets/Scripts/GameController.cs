@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour {
     public Text winLoseField;
 
     public GameObject[] bacon;
+    [HideInInspector]
+    public int baconCount;
 
     // Pan values;
     public Transform panTransform;
@@ -64,7 +66,7 @@ public class GameController : MonoBehaviour {
             winLoseField.text = "You Lose!";
             SetResetButtonState(true);
         }
-
+        CheckBaconState();
         quitButton.onClick.AddListener(QuitGame);
     }
 
@@ -75,7 +77,7 @@ public class GameController : MonoBehaviour {
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Input.mousePosition;
-            Bacon[] b = FindObjectsOfType<Bacon>();
+            //Bacon[] b = FindObjectsOfType<Bacon>();
 
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             //Debug.Log("Mouse Position: " + mousePos);
@@ -83,7 +85,7 @@ public class GameController : MonoBehaviour {
             float newBaconLocation = 0.0f;
 
             // If less than the max number of strips are present in the scene spawn a new strip
-            if (b.Length <= maxStrips)
+            if (baconCount < maxStrips)
             {
                 newBaconLocation = mousePos.y;
 
@@ -108,6 +110,8 @@ public class GameController : MonoBehaviour {
         v3.y = v3.y + yOffset3;
         Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
 
+        baconCount += 3;
+
         Debug.Log("Bacon");
     }
 
@@ -116,6 +120,7 @@ public class GameController : MonoBehaviour {
         Vector3 v3 = panTransform.position;
         v3.y = v3.y + yOffset;
         Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
+        baconCount++;
     }
 
     private int GetRandomInt()

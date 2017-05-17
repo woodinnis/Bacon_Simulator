@@ -116,6 +116,7 @@ public class Bacon : MonoBehaviour {
             {
                 // Increase score
                 gc.score++;
+                gc.baconCount--;
 
                 // Remove bacon from pan
                 Destroy(gameObject);
@@ -127,6 +128,8 @@ public class Bacon : MonoBehaviour {
                 if (gc.failCount < gc.maxFails)
                 {
                     gc.failCount++;
+                    gc.baconCount--;
+
                     Destroy(gameObject);
                 }
             }
