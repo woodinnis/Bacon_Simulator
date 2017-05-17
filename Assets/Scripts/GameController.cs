@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
     public Text failField;
     public Text winLoseField;
 
-    public GameObject bacon;
+    public GameObject[] bacon;
 
     // Pan values;
     public Transform panTransform;
@@ -95,17 +95,18 @@ public class GameController : MonoBehaviour {
     // Place two pieces of bacon in the pan
     private void MakinBacon()
     {
+
         Vector3 v3 = panTransform.position;
         v3.y = v3.y + yOffset1;
-        Instantiate(bacon, v3, Quaternion.identity);
+        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
 
         v3 = panTransform.transform.position;
         v3.y = v3.y + yOffset2;
-        Instantiate(bacon, v3, Quaternion.identity);
+        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
 
         v3 = panTransform.transform.position;
         v3.y = v3.y + yOffset3;
-        Instantiate(bacon, v3, Quaternion.identity);
+        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
 
         Debug.Log("Bacon");
     }
@@ -114,7 +115,15 @@ public class GameController : MonoBehaviour {
     {
         Vector3 v3 = panTransform.position;
         v3.y = v3.y + yOffset;
-        Instantiate(bacon, v3, Quaternion.identity);
+        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
+    }
+
+    private int GetRandomInt()
+    {
+        int index = 0;
+        Random.InitState(System.DateTime.Now.Millisecond);
+        index = Random.Range(0, bacon.Length);
+        return index;
     }
 
     void SetResetButtonState(bool buttonState)
