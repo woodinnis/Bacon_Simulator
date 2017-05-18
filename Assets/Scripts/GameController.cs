@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
-    public int score = 0;
-    public int failCount = 0;
     public int maxFails = 0;
     public int maxStrips = 0;
-    public float panOffsetCheck = 0.0f;
-    public float panShakeTimeReduction = 0.0f;
+
+    [HideInInspector]
+    public int score = 0;
+    [HideInInspector]
+    public int failCount = 0;
 
     public Text scoreField;
     public Text failField;
@@ -19,17 +20,19 @@ public class GameController : MonoBehaviour {
     [HideInInspector]
     public int baconCount;
 
-    // Pan values;
-    public Transform panTransform;
-    private Vector3 defaultPanPosition;
-    private Pan pan;
-
     public Button resetButton;
     public Button quitButton;
 
-    public float yOffset1;
-    public float yOffset2;
-    public float yOffset3;
+    public float[] yOffsets;
+
+    // These values are for a feature that is not yet implemented
+
+    [HideInInspector]
+    public float panOffsetCheck = 0.0f;
+    [HideInInspector]
+    public float panShakeTimeReduction = 0.0f;
+
+    // The above values are for a feature that is not yet implemented
 
     void Awake()
     {
@@ -38,15 +41,12 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        
-        panTransform = FindObjectOfType<Pan>().transform;
-        defaultPanPosition = panTransform.position;
 
-        pan = FindObjectOfType<Pan>();
         // If no bacon exists in the scene, place bacon
         if (!FindObjectOfType<Bacon>())
         {
-            MakinBacon();
+            foreach (float f in yOffsets)
+                MakinBacon(f);
         }
     }
 
@@ -58,7 +58,8 @@ public class GameController : MonoBehaviour {
 
         if (!FindObjectOfType<Bacon>())
         {
-            MakinBacon();
+            foreach(float f in yOffsets)
+                MakinBacon(f);
         }
 
         if (failCount >= maxFails)
@@ -76,11 +77,9 @@ public class GameController : MonoBehaviour {
         // Check for a mouse click
         if (Input.GetMouseButton(0))
         {
+            // Get mouse position and convert to usable coordinates
             Vector3 mousePos = Input.mousePosition;
-            //Bacon[] b = FindObjectsOfType<Bacon>();
-
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            //Debug.Log("Mouse Position: " + mousePos);
 
             float newBaconLocation = 0.0f;
 
@@ -88,41 +87,23 @@ public class GameController : MonoBehaviour {
             if (baconCount < maxStrips)
             {
                 newBaconLocation = mousePos.y;
-
                 MakinBacon(newBaconLocation);
             }
         }
     }
 
-    // Place two pieces of bacon in the pan
-    private void MakinBacon()
-    {
-
-        Vector3 v3 = panTransform.position;
-        v3.y = v3.y + yOffset1;
-        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
-
-        v3 = panTransform.transform.position;
-        v3.y = v3.y + yOffset2;
-        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
-
-        v3 = panTransform.transform.position;
-        v3.y = v3.y + yOffset3;
-        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
-
-        baconCount += 3;
-
-        Debug.Log("Bacon");
-    }
-
+    // Spawn a new strip of bacon
     private void MakinBacon(float yOffset)
     {
-        Vector3 v3 = panTransform.position;
+        Pan p = FindObjectOfType<Pan>();
+        Vector3 v3 = p.transform.position;
+
         v3.y = v3.y + yOffset;
         Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
         baconCount++;
     }
 
+    // Random integer generation from system clock
     private int GetRandomInt()
     {
         int index = 0;
@@ -131,6 +112,7 @@ public class GameController : MonoBehaviour {
         return index;
     }
 
+    // Enable or disable Reset button
     void SetResetButtonState(bool buttonState)
     {
         if (buttonState)
@@ -147,61 +129,28 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    // Reset the game when reset button is pressed
     public void ResetGameState()
     {
         
+        // Destroy all instances of bacon
         foreach (Bacon b in FindObjectsOfType<Bacon>())
         {
-            Debug.Log("Poof!");
             Destroy(b.gameObject);
         }
-
-        Pan pan = FindObjectOfType<Pan>();
-        pan.transform.position = defaultPanPosition;
-
+        
+        // Reset score and fails
         score = 0;
         failCount = 0;
-        MakinBacon();
+
         SetResetButtonState(false);
     }
 
 
     void QuitGame()
     {
-        Debug.Log("QUIT!");
         Application.Quit();
     }
-    // This cannot check for a MouseOver of the pan, because the pan is a separate object
-    //void OnMouseOver()
-    //{
-    //    // Test for a mouse click
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        // Test for a maximum number of bacon strips in the scene
-    //        if (FindObjectsOfType<Bacon>().Length < maxStrips)
-    //        {
-    //            Debug.Log("No more bacon");
-    //            Vector3 test1 = pan.position;
-    //            test1.y = test1.y + yOffset1;
-
-    //            Vector3 test2 = pan.position;
-    //            test2.y = test2.y + yOffset2;
-
-    //            if (!FindObjectOfType<Bacon>())
-    //            {
-    //                Vector3 v3 = pan.position;
-    //                v3.y = v3.y + yOffset1;
-    //                Instantiate(bacon, v3, Quaternion.identity);
-    //            }
-    //            else if (bacon.transform.position == (test1))
-    //            {
-    //                Instantiate(bacon, test1, Quaternion.identity);
-    //            }
-    //            else if (bacon.transform.position == (test2))
-    //            {
-    //                Instantiate(bacon, test2, Quaternion.identity);
-    //            }
-    //        }
-    //    }
-    //}
+   
+    
 }
