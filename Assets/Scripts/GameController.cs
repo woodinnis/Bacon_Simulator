@@ -16,9 +16,11 @@ public class GameController : MonoBehaviour {
     public Text failField;
     public Text winLoseField;
 
-    public GameObject[] bacon;
+    public Bacon[] baconTypes;
     [HideInInspector]
     public int baconCount;
+    public int nextBaconPieceCount = 0;
+    public Bacon[] nextBaconPiece;
 
     public Button resetButton;
     public Button quitButton;
@@ -42,6 +44,12 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        // Fill the Next Piece array
+        for (int i = 0; i < nextBaconPieceCount; i++)
+        {
+            GenerateBacon(i);
+        }
+
         // If no bacon exists in the scene, place bacon
         if (!FindObjectOfType<Bacon>())
         {
@@ -49,6 +57,7 @@ public class GameController : MonoBehaviour {
                 MakinBacon(f);
         }
     }
+
 
     // Update is called once per frame
     void Update ()
@@ -71,7 +80,7 @@ public class GameController : MonoBehaviour {
         quitButton.onClick.AddListener(QuitGame);
     }
 
-
+    // Check the current number of bacon strips on screen and spawn new strips as necessary
     private void CheckBaconState()
     {
         // Check for a mouse click
@@ -99,8 +108,34 @@ public class GameController : MonoBehaviour {
         Vector3 v3 = p.transform.position;
 
         v3.y = v3.y + yOffset;
-        Instantiate(bacon[GetRandomInt()], v3, Quaternion.identity);
+
+        // Instantiate the piece of bacon currently in the last index of Next Piece array
+        int lastElement = nextBaconPiece.Length - 1;
+        Instantiate(nextBaconPiece[lastElement], v3, Quaternion.identity);
+
+        // Increase the total count
         baconCount++;
+
+        // Shift the array up, and generate a new piece in the Next Piece array
+        ShiftBaconArrayUp();
+        GenerateBacon(0);
+    }
+
+    // Generate a random piece of bacon
+    private void GenerateBacon(int i)
+    {
+        nextBaconPiece[i] = baconTypes[GetRandomInt()];
+    }
+
+    // Shift all Next Piece array elements up by 1 index
+    void ShiftBaconArrayUp()
+    {
+        int size = nextBaconPiece.Length-1;
+
+        for(int i = size; i > 0; i--)
+        {
+            nextBaconPiece[i] = nextBaconPiece[i - 1];
+        }
     }
 
     // Random integer generation from system clock
@@ -108,7 +143,7 @@ public class GameController : MonoBehaviour {
     {
         int index = 0;
         Random.InitState(System.DateTime.Now.Millisecond);
-        index = Random.Range(0, bacon.Length);
+        index = Random.Range(0, baconTypes.Length);
         return index;
     }
 
@@ -146,7 +181,7 @@ public class GameController : MonoBehaviour {
         SetResetButtonState(false);
     }
 
-
+    // Seriously, do you need this explained?
     void QuitGame()
     {
         Application.Quit();
