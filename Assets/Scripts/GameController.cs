@@ -16,12 +16,17 @@ public class GameController : MonoBehaviour {
     public Text failField;
     public Text winLoseField;
 
+    // Variables for bacon and spawning bacon
     public Bacon[] baconTypes;
     [HideInInspector]
     public int baconCount;
     public int nextBaconPieceCount = 0;
     public Bacon[] nextBaconPiece;
+    public int nextBaconCountdown = 0;
+    public Timer timer;
+    //private Timer nextBaconTimer;
 
+    // UI variables
     public Button resetButton;
     public Button quitButton;
 
@@ -56,6 +61,9 @@ public class GameController : MonoBehaviour {
             foreach (float f in yOffsets)
                 MakinBacon(f);
         }
+
+        // Find and assign the timer child object
+        //nextBaconTimer = GetComponentInChildren<Timer>();
     }
 
 
@@ -95,8 +103,17 @@ public class GameController : MonoBehaviour {
             // If less than the max number of strips are present in the scene spawn a new strip
             if (baconCount < maxStrips)
             {
-                newBaconLocation = mousePos.y;
-                MakinBacon(newBaconLocation);
+                Instantiate(timer, new Vector3(0.0f, 0.0f), Quaternion.identity);
+                timer.targetTime = nextBaconCountdown;
+
+                Debug.Log("Timer: " + timer.currentTime);
+
+                if (timer.currentTime >= timer.targetTime)
+                {
+                    Debug.Log("Timer: " + timer.currentTime);
+                    newBaconLocation = mousePos.y;
+                    MakinBacon(newBaconLocation);
+                }
             }
         }
     }
