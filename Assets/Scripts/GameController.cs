@@ -44,22 +44,7 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        //// Fill the Next Piece array
-        //for (int i = 0; i < nextBaconPieceCount; i++)
-        //{
-        //    GenerateBacon(i);
-        //}
-
-        //// If no bacon exists in the scene, place bacon
-        //if (!FindObjectOfType<Bacon>())
-        //{
-        //    foreach (float f in yOffsets)
-        //        MakinBacon(f);
-        //}
-
-        // Find and assign the timer child object
-        //nextBaconTimer = GetComponentInChildren<Timer>();
-
+        // Find and assign the bacon spawner 
         baconSpawner = FindObjectOfType<BaconSpawner>();
     }
 
@@ -70,52 +55,20 @@ public class GameController : MonoBehaviour {
         scoreField.text = score.ToString();
         failField.text = failCount.ToString();
 
-        /*
-        if (!FindObjectOfType<Bacon>())
-        {
-            foreach(float f in yOffsets)
-                MakinBacon(f);
-        }
-        */
-
+        // Test for failure count
         if (failCount >= maxFails)
         {
             winLoseField.text = "You Lose!";
             SetResetButtonState(true);
         }
 
-        Timer t;
-
         // Check total bacon pieces in the scene
         if (CheckTotalBaconCount())
         {
-            // If a new piece is needed, spawn a timer
-            //Debug.Log("Bacon Count: " + baconCount);
-
-            baconSpawner.MakinBacon(NewBaconLocation());
-            
-            //for (int i = baconCount; i < maxStrips; i++)
-            //{
-            //    Debug.Log("i = " + i);
-            //    //Instantiate(timer, new Vector3(0, 0), Quaternion.identity);
-            //    t = GetComponentInChildren<Timer>();
-                
-            //    t.targetTime = nextBaconCountdown;
-
-            //    Debug.Log("Countdown Time: " + t.targetTime);
-            //} 
+            baconSpawner.respawnBacon(NewBaconLocation());
         }
 
-        //float currentTime = t.currentTime;
-
-        //Debug.Log("Current Time: " + currentTime);
-
-        //if (currentTime >= timer.targetTime)
-        //{
-            //MakinBacon(2);
-        //    Destroy(timer.gameObject);
-        //}
-
+        // Check for a button press on the Quit button
         quitButton.onClick.AddListener(QuitGame);
     }
 
@@ -140,7 +93,6 @@ public class GameController : MonoBehaviour {
             float newBaconLocation = 0.0f;
 
             return newBaconLocation = mousePos.y;
-            //baconSpawner.MakinBacon(newBaconLocation);
         }
         else
             return 0.0f;

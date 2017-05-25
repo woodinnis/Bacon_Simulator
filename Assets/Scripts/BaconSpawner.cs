@@ -7,7 +7,10 @@ public class BaconSpawner : MonoBehaviour {
     public int nextBaconPieceCount = 0;
     public Bacon[] nextBaconPiece;
     public int nextBaconCountdown = 0;
-    public Timer nextBaconTimer;
+
+    private bool beginRespawn = false;
+    private float respawnOffset = 0.0f;
+    private float timerCount = 0.0f;
 
     void Start ()
     {
@@ -27,8 +30,33 @@ public class BaconSpawner : MonoBehaviour {
         }
     }
 
+    void Update()
+    {
+        
+
+        if (beginRespawn)
+        {
+            Debug.Log("Respawn Started");
+            
+            timerCount += Time.deltaTime;
+            Debug.Log("Time: " + timerCount.ToString());
+            if (timerCount > nextBaconCountdown)
+            {
+                MakinBacon(respawnOffset);
+                beginRespawn = false;
+                timerCount = 0;
+            }
+        }
+    }
+
+    public void respawnBacon(float yOffset)
+    {
+        beginRespawn = true;
+        respawnOffset = yOffset;
+    }
+
     // Spawn a new strip of bacon
-    public void MakinBacon(float yOffset)
+    private void MakinBacon(float yOffset)
     {
         Pan p = FindObjectOfType<Pan>();
         Vector3 v3 = p.transform.position;
@@ -73,5 +101,30 @@ public class BaconSpawner : MonoBehaviour {
         index = Random.Range(0, baconTypes.Length);
         return index;
     }
+
+    // Timer function
+    //void timer(float targetTime)
+    //{
+    //    float currentTime = 0.0f;
+
+    //    while(currentTime < targetTime)
+    //    {
+    //        Debug.Log("Current Time: " + currentTime.ToString());
+    //        currentTime += Time.deltaTime;
+
+    //        if (currentTime >= targetTime)
+    //        {
+    //            timerEnded();
+    //        }
+    //    }
+    //}
+
+    // Perform this function only when the timer has ended
+
+    //bool timerEnded()
+    //{
+    //    Debug.Log("Timer Ended");
+    //    return true;
+    //}
 
 }

@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour {
         }
 	}
 
-    bool timerEnded()
+    public bool timerEnded()
     {
         return true;
     }
