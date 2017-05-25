@@ -17,14 +17,9 @@ public class GameController : MonoBehaviour {
     public Text winLoseField;
 
     // Variables for bacon and spawning bacon
-    public Bacon[] baconTypes;
     [HideInInspector]
     public int baconCount;
-    public int nextBaconPieceCount = 0;
-    public Bacon[] nextBaconPiece;
-    public int nextBaconCountdown = 0;
-    public Timer timer;
-    //private Timer nextBaconTimer;
+    private BaconSpawner baconSpawner;
 
     // UI variables
     public Button resetButton;
@@ -49,21 +44,23 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        // Fill the Next Piece array
-        for (int i = 0; i < nextBaconPieceCount; i++)
-        {
-            GenerateBacon(i);
-        }
+        //// Fill the Next Piece array
+        //for (int i = 0; i < nextBaconPieceCount; i++)
+        //{
+        //    GenerateBacon(i);
+        //}
 
-        // If no bacon exists in the scene, place bacon
-        if (!FindObjectOfType<Bacon>())
-        {
-            foreach (float f in yOffsets)
-                MakinBacon(f);
-        }
+        //// If no bacon exists in the scene, place bacon
+        //if (!FindObjectOfType<Bacon>())
+        //{
+        //    foreach (float f in yOffsets)
+        //        MakinBacon(f);
+        //}
 
         // Find and assign the timer child object
         //nextBaconTimer = GetComponentInChildren<Timer>();
+
+        baconSpawner = FindObjectOfType<BaconSpawner>();
     }
 
 
@@ -93,18 +90,20 @@ public class GameController : MonoBehaviour {
         if (CheckTotalBaconCount())
         {
             // If a new piece is needed, spawn a timer
-            Debug.Log("Bacon Count: " + baconCount);
-            
-            for (int i = baconCount; i < maxStrips; i++)
-            {
-                Debug.Log("i = " + i);
-                //Instantiate(timer, new Vector3(0, 0), Quaternion.identity);
-                t = GetComponentInChildren<Timer>();
-                
-                t.targetTime = nextBaconCountdown;
+            //Debug.Log("Bacon Count: " + baconCount);
 
-                Debug.Log("Countdown Time: " + t.targetTime);
-            } 
+            baconSpawner.MakinBacon(NewBaconLocation());
+            
+            //for (int i = baconCount; i < maxStrips; i++)
+            //{
+            //    Debug.Log("i = " + i);
+            //    //Instantiate(timer, new Vector3(0, 0), Quaternion.identity);
+            //    t = GetComponentInChildren<Timer>();
+                
+            //    t.targetTime = nextBaconCountdown;
+
+            //    Debug.Log("Countdown Time: " + t.targetTime);
+            //} 
         }
 
         //float currentTime = t.currentTime;
@@ -129,7 +128,7 @@ public class GameController : MonoBehaviour {
             return false;
     }
 
-    void NewBaconLocation()
+    float NewBaconLocation()
     {
         // Check for a mouse click
         if (Input.GetMouseButton(0))
@@ -140,55 +139,11 @@ public class GameController : MonoBehaviour {
 
             float newBaconLocation = 0.0f;
 
-            newBaconLocation = mousePos.y;
-            MakinBacon(newBaconLocation);
+            return newBaconLocation = mousePos.y;
+            //baconSpawner.MakinBacon(newBaconLocation);
         }
-    }
-
-    // Spawn a new strip of bacon
-    private void MakinBacon(float yOffset)
-    {
-        Pan p = FindObjectOfType<Pan>();
-        Vector3 v3 = p.transform.position;
-
-        v3.y = v3.y + yOffset;
-
-        // Instantiate the piece of bacon currently in the last index of Next Piece array
-        int lastElement = nextBaconPiece.Length - 1;
-        Instantiate(nextBaconPiece[lastElement], v3, Quaternion.identity);
-
-        // Increase the total count
-        baconCount++;
-
-        // Shift the array up, and generate a new piece in the Next Piece array
-        ShiftBaconArrayUp();
-        GenerateBacon(0);
-    }
-
-    // Generate a random piece of bacon
-    private void GenerateBacon(int i)
-    {
-        nextBaconPiece[i] = baconTypes[GetRandomInt()];
-    }
-
-    // Shift all Next Piece array elements up by 1 index
-    void ShiftBaconArrayUp()
-    {
-        int size = nextBaconPiece.Length-1;
-
-        for(int i = size; i > 0; i--)
-        {
-            nextBaconPiece[i] = nextBaconPiece[i - 1];
-        }
-    }
-
-    // Random integer generation from system clock
-    private int GetRandomInt()
-    {
-        int index = 0;
-        Random.InitState(System.DateTime.Now.Millisecond);
-        index = Random.Range(0, baconTypes.Length);
-        return index;
+        else
+            return 0.0f;
     }
 
     // Enable or disable Reset button
