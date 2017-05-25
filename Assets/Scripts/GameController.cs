@@ -73,23 +73,63 @@ public class GameController : MonoBehaviour {
         scoreField.text = score.ToString();
         failField.text = failCount.ToString();
 
+        /*
         if (!FindObjectOfType<Bacon>())
         {
             foreach(float f in yOffsets)
                 MakinBacon(f);
         }
+        */
 
         if (failCount >= maxFails)
         {
             winLoseField.text = "You Lose!";
             SetResetButtonState(true);
         }
-        CheckBaconState();
+
+        Timer t;
+
+        // Check total bacon pieces in the scene
+        if (CheckTotalBaconCount())
+        {
+            // If a new piece is needed, spawn a timer
+            Debug.Log("Bacon Count: " + baconCount);
+            
+            for (int i = baconCount; i < maxStrips; i++)
+            {
+                Debug.Log("i = " + i);
+                //Instantiate(timer, new Vector3(0, 0), Quaternion.identity);
+                t = GetComponentInChildren<Timer>();
+                
+                t.targetTime = nextBaconCountdown;
+
+                Debug.Log("Countdown Time: " + t.targetTime);
+            } 
+        }
+
+        //float currentTime = t.currentTime;
+
+        //Debug.Log("Current Time: " + currentTime);
+
+        //if (currentTime >= timer.targetTime)
+        //{
+            //MakinBacon(2);
+        //    Destroy(timer.gameObject);
+        //}
+
         quitButton.onClick.AddListener(QuitGame);
     }
 
-    // Check the current number of bacon strips on screen and spawn new strips as necessary
-    private void CheckBaconState()
+    // Check the current number of bacon strips on screen and return a T/F
+    private bool CheckTotalBaconCount()
+    {
+        if (baconCount < maxStrips)
+            return true;
+        else
+            return false;
+    }
+
+    void NewBaconLocation()
     {
         // Check for a mouse click
         if (Input.GetMouseButton(0))
@@ -100,21 +140,8 @@ public class GameController : MonoBehaviour {
 
             float newBaconLocation = 0.0f;
 
-            // If less than the max number of strips are present in the scene spawn a new strip
-            if (baconCount < maxStrips)
-            {
-                Instantiate(timer, new Vector3(0.0f, 0.0f), Quaternion.identity);
-                timer.targetTime = nextBaconCountdown;
-
-                Debug.Log("Timer: " + timer.currentTime);
-
-                if (timer.currentTime >= timer.targetTime)
-                {
-                    Debug.Log("Timer: " + timer.currentTime);
-                    newBaconLocation = mousePos.y;
-                    MakinBacon(newBaconLocation);
-                }
-            }
+            newBaconLocation = mousePos.y;
+            MakinBacon(newBaconLocation);
         }
     }
 
