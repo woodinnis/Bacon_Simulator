@@ -32,8 +32,6 @@ public class BaconSpawner : MonoBehaviour {
 
     void Update()
     {
-        
-
         if (beginRespawn)
         {
             

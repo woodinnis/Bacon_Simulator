@@ -27,8 +27,6 @@ public class GameController : MonoBehaviour {
     public Button resetButton;
     public Button quitButton;
 
-   
-
     // These values are for a feature that is not yet implemented
 
     [HideInInspector]
@@ -85,25 +83,40 @@ public class GameController : MonoBehaviour {
 
     float NewBaconLocation()
     {
+        
+        //Check for a mouse click
+        if (Input.GetMouseButton(0))
+            {
+                // Get mouse position and convert to usable coordinates
+                Vector3 mousePos = Input.mousePosition;
+                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+                float newBaconLocation = mousePos.y;
+
+                return newBaconLocation;
+            }
+            else
+                return 0.0f;
+        
         // Check all default yOffsets for a piece of bacon
-        Bacon[] checkYoffsets = FindObjectsOfType<Bacon>();
-        bool yOffsetTest = false;
-        float newOffset = 0.0f;
+        //Bacon[] checkYoffsets = FindObjectsOfType<Bacon>();
+        //bool yOffsetTest = false;
+        //float newOffset = 0.0f;
         
         //for(int i = 0; i < yOffsets.Length; i++)
-        foreach(float y in yOffsets)
-        {
-            foreach(Bacon b in checkYoffsets)
-            {
-                if (b.transform.position.y == y)
-                    break;
-                else
-                {
-                    newOffset = y;
-                    break;
-                    //Debug.Log("Bacon Offsets: " + yOffsets[i]);
-                }
-            }
+        //foreach(float y in yOffsets)
+        //{
+        //    foreach(Bacon b in checkYoffsets)
+        //    {
+        //        if (b.transform.position.y == y)
+        //            break;
+        //        else
+        //        {
+        //            newOffset = y;
+        //            break;
+        //            //Debug.Log("Bacon Offsets: " + yOffsets[i]);
+        //        }
+        //    }
             //Debug.Log("yOffset: " + y);
 
             //foreach (Bacon b in checkYoffsets)
@@ -118,22 +131,9 @@ public class GameController : MonoBehaviour {
             //        return y;
             //}
             //return 0;
-        }
+        //
 
-        return 0f;
-        // Check for a mouse click
-        //if (Input.GetMouseButton(0))
-        //{
-        //    // Get mouse position and convert to usable coordinates
-        //    Vector3 mousePos = Input.mousePosition;
-        //    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        //    float newBaconLocation = 0.0f;
-
-        //    return newBaconLocation = mousePos.y;
-        //}
-        //else
-        //    return 0.0f;
+        //return 0f;}
     }
 
     // Enable or disable Reset button
