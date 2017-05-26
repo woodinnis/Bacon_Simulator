@@ -1,21 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
+    [System.Serializable]
     public class baconOffset
     {
         public float offset
-        {
-            get { return offset; }
-            set { offset = value; }
-        }
+        { get; set; }
         public bool occupied
-        {
-            get { return occupied; }
-            set { occupied = value; }
-        }
+        { get; set; }
     }
 
     public int maxFails = 0;
@@ -33,9 +29,10 @@ public class GameController : MonoBehaviour {
     // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
-    [HideInInspector]
+    //[HideInInspector]
     public float[] yOffsets;
     private BaconSpawner baconSpawner;
+    public baconOffset[] baconOffsetArray;
 
     // UI variables
     public Button resetButton;
@@ -60,6 +57,13 @@ public class GameController : MonoBehaviour {
 
         // Find and assign the bacon spawner 
         baconSpawner = FindObjectOfType<BaconSpawner>();
+        
+        // Set default values for Offset class array
+        for (int i = 0; i < yOffsets.Length; i++)
+        {
+            baconOffsetArray[i].offset = yOffsets[i];
+            baconOffsetArray[i].occupied = true;
+        }
     }
 
 
