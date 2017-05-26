@@ -19,13 +19,15 @@ public class GameController : MonoBehaviour {
     // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
+    [HideInInspector]
+    public float[] yOffsets;
     private BaconSpawner baconSpawner;
 
     // UI variables
     public Button resetButton;
     public Button quitButton;
 
-    public float[] yOffsets;
+   
 
     // These values are for a feature that is not yet implemented
 
@@ -83,19 +85,55 @@ public class GameController : MonoBehaviour {
 
     float NewBaconLocation()
     {
-        // Check for a mouse click
-        if (Input.GetMouseButton(0))
+        // Check all default yOffsets for a piece of bacon
+        Bacon[] checkYoffsets = FindObjectsOfType<Bacon>();
+        bool yOffsetTest = false;
+        float newOffset = 0.0f;
+        
+        //for(int i = 0; i < yOffsets.Length; i++)
+        foreach(float y in yOffsets)
         {
-            // Get mouse position and convert to usable coordinates
-            Vector3 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            foreach(Bacon b in checkYoffsets)
+            {
+                if (b.transform.position.y == y)
+                    break;
+                else
+                {
+                    newOffset = y;
+                    break;
+                    //Debug.Log("Bacon Offsets: " + yOffsets[i]);
+                }
+            }
+            //Debug.Log("yOffset: " + y);
 
-            float newBaconLocation = 0.0f;
+            //foreach (Bacon b in checkYoffsets)
+            //    //Debug.Log("Bacon Offsets: " + b.transform.position.y);
+            //    if (y == b.transform.position.y)
+            //        Debug.Log("Missing: " + y);
 
-            return newBaconLocation = mousePos.y;
+            //{
+            //    if (b.transform.position.y == y)
+            //        break;
+            //    else
+            //        return y;
+            //}
+            //return 0;
         }
-        else
-            return 0.0f;
+
+        return 0f;
+        // Check for a mouse click
+        //if (Input.GetMouseButton(0))
+        //{
+        //    // Get mouse position and convert to usable coordinates
+        //    Vector3 mousePos = Input.mousePosition;
+        //    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        //    float newBaconLocation = 0.0f;
+
+        //    return newBaconLocation = mousePos.y;
+        //}
+        //else
+        //    return 0.0f;
     }
 
     // Enable or disable Reset button

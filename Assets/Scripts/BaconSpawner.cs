@@ -36,10 +36,9 @@ public class BaconSpawner : MonoBehaviour {
 
         if (beginRespawn)
         {
-            Debug.Log("Respawn Started");
             
             timerCount += Time.deltaTime;
-            Debug.Log("Time: " + timerCount.ToString());
+
             if (timerCount > nextBaconCountdown)
             {
                 MakinBacon(respawnOffset);
