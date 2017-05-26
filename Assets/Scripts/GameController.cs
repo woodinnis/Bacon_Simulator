@@ -4,6 +4,20 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
+    public class baconOffset
+    {
+        public float offset
+        {
+            get { return offset; }
+            set { offset = value; }
+        }
+        public bool occupied
+        {
+            get { return occupied; }
+            set { occupied = value; }
+        }
+    }
+
     public int maxFails = 0;
     public int maxStrips = 0;
 

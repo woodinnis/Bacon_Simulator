@@ -136,21 +136,21 @@ public class Bacon : MonoBehaviour {
         }
     }
 
-    void OnMouseDrag()
-    {
-        timer.isPaused = true;
+    //void OnMouseDrag()
+    //{
+    //    timer.isPaused = true;
 
-        Vector3 v3 = Vector3.zero;
-        Vector3 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+    //    Vector3 v3 = Vector3.zero;
+    //    Vector3 mousePos = Input.mousePosition;
+    //    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        v3.x = 0.0f;
-        v3.y = mousePos.y;
-        transform.position = v3;
-    }
-    void OnMouseUp()
-    {
-        if (timer.isPaused)
-            timer.isPaused = false;
-    }
+    //    v3.x = 0.0f;
+    //    v3.y = mousePos.y;
+    //    transform.position = v3;
+    //}
+    //void OnMouseUp()
+    //{
+    //    if (timer.isPaused)
+    //        timer.isPaused = false;
+    //}
 }
