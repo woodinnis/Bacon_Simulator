@@ -103,6 +103,8 @@ public class Bacon : MonoBehaviour {
         {
             float currentTime = timer.currentTime;
 
+            float yOffset = transform.position.y;
+
             // If the player clicks a cooked piece of bacon, flip it over and cook the other side
             // Take 5 seconds off the timer
             if ((baconState == BaconState.baconRaw) && (currentTime > cookedTime) 
@@ -118,8 +120,10 @@ public class Bacon : MonoBehaviour {
                 gc.score++;
                 gc.baconCount--;
 
+                killBacon(yOffset);
+
                 // Remove bacon from pan
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
             // If bacon burns
             if (baconState == BaconState.baconBurned)
@@ -130,10 +134,29 @@ public class Bacon : MonoBehaviour {
                     gc.failCount++;
                     gc.baconCount--;
 
-                    Destroy(gameObject);
+                    killBacon(yOffset);
+
+                    //Destroy(gameObject);
                 }
             }
         }
+    }
+
+    void killBacon(float yOffset)
+    {
+        Debug.Log("Kill Bacon Offset: " + yOffset);
+        for (int i = 0; i < gc.baconOffsetArray.Length; i++)
+        {
+            if (yOffset == gc.baconOffsetArray[i].offset)
+            {
+                Debug.Log("Offset Index: " + i);
+                Debug.Log("Offset at Index: " + gc.baconOffsetArray[i].offset);
+                gc.baconOffsetArray[i].occupied = false;
+                //break;
+            }
+        }
+
+        Destroy(gameObject);
     }
 
     //void OnMouseDrag()
