@@ -102,9 +102,19 @@ public class Bacon : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             float currentTime = timer.currentTime;
-
+            
             float yOffset = transform.position.y;
+            int yOffsetIndex = 0;
 
+            // Temporarily hard coded to locate the source of the yOffset spawning problem
+            // 29 May 2017
+            if (yOffset == 2)
+                yOffsetIndex = 0;
+            if (yOffset == 0)
+                yOffsetIndex = 1;
+            if(yOffset == -2)
+                yOffsetIndex = 2;
+            
             // If the player clicks a cooked piece of bacon, flip it over and cook the other side
             // Take 5 seconds off the timer
             if ((baconState == BaconState.baconRaw) && (currentTime > cookedTime) 
@@ -120,7 +130,7 @@ public class Bacon : MonoBehaviour {
                 gc.score++;
                 gc.baconCount--;
 
-                killBacon(yOffset);
+                killBacon(yOffset, yOffsetIndex);
 
                 // Remove bacon from pan
                 //Destroy(gameObject);
@@ -134,7 +144,7 @@ public class Bacon : MonoBehaviour {
                     gc.failCount++;
                     gc.baconCount--;
 
-                    killBacon(yOffset);
+                    killBacon(yOffset, yOffsetIndex);
 
                     //Destroy(gameObject);
                 }
@@ -142,19 +152,23 @@ public class Bacon : MonoBehaviour {
         }
     }
 
-    void killBacon(float yOffset)
+    void killBacon(float yOffset, int yOffsetIndex)
     {
-        Debug.Log("Kill Bacon Offset: " + yOffset);
-        for (int i = 0; i < gc.baconOffsetArray.Length; i++)
-        {
-            if (yOffset == gc.baconOffsetArray[i].offset)
-            {
-                Debug.Log("Offset Index: " + i);
-                Debug.Log("Offset at Index: " + gc.baconOffsetArray[i].offset);
-                gc.baconOffsetArray[i].occupied = false;
-                //break;
-            }
-        }
+
+        Debug.Log("Bacon Offset Index: " + yOffsetIndex);
+        gc.baconOffsetArray[yOffsetIndex].occupied = false;
+        Debug.Log("Bacon Offset: " + yOffset);
+        
+        //for (int i = 0; i < gc.baconOffsetArray.Length; i++)
+        //{
+        //    if (yOffset == gc.baconOffsetArray[i].offset)
+        //    {
+        //        Debug.Log("Offset Index: " + i);
+        //        Debug.Log("Offset at Index: " + gc.baconOffsetArray[i].offset);
+        //        gc.baconOffsetArray[i].occupied = false;
+        //        //break;
+        //    }
+        //}
 
         Destroy(gameObject);
     }
