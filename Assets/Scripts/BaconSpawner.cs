@@ -39,8 +39,9 @@ public class BaconSpawner : MonoBehaviour {
 
             if (timerCount > nextBaconCountdown)
             {
-                MakinBacon(respawnOffset);
                 beginRespawn = false;
+                MakinBacon(respawnOffset);
+                
                 timerCount = 0;
             }
         }
@@ -48,6 +49,7 @@ public class BaconSpawner : MonoBehaviour {
 
     public void respawnBacon(float yOffset)
     {
+        Debug.Log("yOffset " + yOffset);
         beginRespawn = true;
         respawnOffset = yOffset;
     }
@@ -59,7 +61,7 @@ public class BaconSpawner : MonoBehaviour {
         Vector3 v3 = p.transform.position;
 
         v3.y = v3.y + yOffset;
-
+        
         // Instantiate the piece of bacon currently in the last index of Next Piece array
         int lastElement = nextBaconPiece.Length - 1;
         Instantiate(nextBaconPiece[lastElement], v3, Quaternion.identity);

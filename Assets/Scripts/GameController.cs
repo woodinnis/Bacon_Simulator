@@ -85,7 +85,9 @@ public class GameController : MonoBehaviour
         // Check total bacon pieces in the scene
         if (CheckTotalBaconCount())
         {
-            baconSpawner.respawnBacon(NewBaconLocation());
+            float newBaconLocation = NewBaconLocation();
+            //Debug.Log("Sending yOffset Value: " + newBaconLocation);
+            baconSpawner.respawnBacon(newBaconLocation);
         }
 
         // Check for a button press on the Quit button
@@ -104,19 +106,34 @@ public class GameController : MonoBehaviour
     float NewBaconLocation()
     {
 
+        float newBaconLocation = 0.0f;
+
         //Check for a mouse click
         if (Input.GetMouseButton(0))
         {
+            //Debug.Log("Am I Even Getting Here");
             // Get mouse position and convert to usable coordinates
-            Vector3 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            //Vector3 mousePos = Input.mousePosition;
+            //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            float newBaconLocation = mousePos.y;
+            //float newBaconLocation = mousePos.y;
 
+            //Debug.Log("Size of the Bacon Offset Array: " + baconOffsetArray.Length);
+            foreach(baconOffset b in baconOffsetArray)
+            {
+                //Debug.Log("How about Here?");
+                if (b.occupied == false)
+                {
+                    //Debug.Log(b.offset + "Is unoccupied");
+                    newBaconLocation = b.offset;
+                }
+                else
+                    continue;
+            }
             return newBaconLocation;
         }
         else
-            return 0.0f;
+            return newBaconLocation;
 
         // Check all default yOffsets for a piece of bacon
         //Bacon[] checkYoffsets = FindObjectsOfType<Bacon>();
