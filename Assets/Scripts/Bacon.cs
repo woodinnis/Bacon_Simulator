@@ -22,7 +22,6 @@ public class Bacon : MonoBehaviour {
     
     private SpriteRenderer sprite;
     //private Transform panTransform;
-    //private float yOffset;
 
     [HideInInspector]
     public Timer timer;
@@ -105,15 +104,6 @@ public class Bacon : MonoBehaviour {
             
             float yOffset = transform.position.y;
             int yOffsetIndex = 0;
-
-            // Temporarily hard coded to locate the source of the yOffset spawning problem
-            // 29 May 2017
-            if (yOffset == 2)
-                yOffsetIndex = 0;
-            if (yOffset == 0)
-                yOffsetIndex = 1;
-            if(yOffset == -2)
-                yOffsetIndex = 2;
             
             // If the player clicks a cooked piece of bacon, flip it over and cook the other side
             // Take 5 seconds off the timer
@@ -132,8 +122,6 @@ public class Bacon : MonoBehaviour {
 
                 killBacon(yOffset, yOffsetIndex);
 
-                // Remove bacon from pan
-                //Destroy(gameObject);
             }
             // If bacon burns
             if (baconState == BaconState.baconBurned)
@@ -145,8 +133,6 @@ public class Bacon : MonoBehaviour {
                     gc.baconCount--;
 
                     killBacon(yOffset, yOffsetIndex);
-
-                    //Destroy(gameObject);
                 }
             }
         }
@@ -155,21 +141,19 @@ public class Bacon : MonoBehaviour {
     void killBacon(float yOffset, int yOffsetIndex)
     {
 
-        Debug.Log("Bacon Offset Index: " + yOffsetIndex);
-        gc.baconOffsetArray[yOffsetIndex].occupied = false;
-        Debug.Log("Bacon Offset: " + yOffset);
-        
-        //for (int i = 0; i < gc.baconOffsetArray.Length; i++)
-        //{
-        //    if (yOffset == gc.baconOffsetArray[i].offset)
-        //    {
-        //        Debug.Log("Offset Index: " + i);
-        //        Debug.Log("Offset at Index: " + gc.baconOffsetArray[i].offset);
-        //        gc.baconOffsetArray[i].occupied = false;
-        //        //break;
-        //    }
-        //}
+        // Identify and count the BaconSpawners in the scene
+        BaconSpawner[] baconSpawners;
+        baconSpawners = FindObjectsOfType<BaconSpawner>();
+        int baconSpawnersCount = baconSpawners.Length;
 
+        // Identity the BaconSpawner alligned with this Bacon piece and set its occupied boolean to false
+        for(int i = 0; i < baconSpawnersCount; i++)
+        {
+            if (baconSpawners[i].transform.position == this.transform.position)
+                baconSpawners[i].occupiedSpawnPoint = false;
+        }       
+
+        // Destroy the strip
         Destroy(gameObject);
     }
 
