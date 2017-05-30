@@ -60,11 +60,23 @@ public class GameController : MonoBehaviour
         // Find and assign the bacon spawner 
         baconSpawner = FindObjectOfType<BaconSpawner>();
 
+        int baconOffsetCount = baconOffsetArray.Length;
+
+        for(int i = 0; i < baconOffsetCount; i++)
+        {
+            baconOffsetArray[i] = GetComponentInChildren<SpawnPoint>();
+        }
+
         // Set default values for Offset class array
         for (int i = 0; i < yOffsets.Length; i++)
         {
-            baconOffsetArray[i].offset = yOffsets[i];
+            //baconOffsetArray[i].offset = yOffsets[i];
             baconOffsetArray[i].occupied = true;
+            Debug.Log("Spawn Points: ");
+            foreach(SpawnPoint sp in baconOffsetArray)
+            {
+                Debug.Log(sp.position);
+            }
         }
     }
 
@@ -85,9 +97,9 @@ public class GameController : MonoBehaviour
         // Check total bacon pieces in the scene
         if (CheckTotalBaconCount())
         {
-            float newBaconLocation = 0.0f;
+            //float newBaconLocation = 0.0f;
+            Vector3 newBaconLocation = Vector3.zero;
             newBaconLocation = NewBaconLocation();
-            Debug.Log("Sending yOffset Value: " + newBaconLocation);
             baconSpawner.respawnBacon(newBaconLocation);
         }
 
@@ -104,16 +116,21 @@ public class GameController : MonoBehaviour
             return false;
     }
 
-    float NewBaconLocation()
+    //float NewBaconLocation()
+    Vector3 NewBaconLocation()
     {
-        float newBaconLocation = 0.0f;
+        //float newBaconLocation = 0.0f;
+        Vector3 newBaconLocation = Vector3.zero;
         int baconOffsetCount = baconOffsetArray.Length;
 
         for(int i = 0; i < baconOffsetCount; i++)
         {
             if (baconOffsetArray[i].occupied == false)
             {
-                newBaconLocation = baconOffsetArray[i].offset;
+                Debug.Log("Spawn Point Index = " + i);
+                Debug.Log("New Position = " + baconOffsetArray[i].position);
+                newBaconLocation = baconOffsetArray[i].position;
+                
                 return newBaconLocation;// baconOffsetArray[i].offset;
             }
             else

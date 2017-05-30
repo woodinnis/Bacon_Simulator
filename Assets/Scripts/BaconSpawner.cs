@@ -9,7 +9,8 @@ public class BaconSpawner : MonoBehaviour {
     public int nextBaconCountdown = 0;
 
     private bool beginRespawn = false;
-    private float respawnOffset = 0.0f;
+    //private float respawnOffset = 0.0f;
+    private Vector3 respawnOffset = Vector3.zero;
     private float timerCount = 0.0f;
 
     void Start ()
@@ -25,8 +26,12 @@ public class BaconSpawner : MonoBehaviour {
         // If no bacon exists in the scene, place bacon
         if (!FindObjectOfType<Bacon>())
         {
-            foreach (float f in gc.yOffsets)
-                MakinBacon(f);
+            //foreach (float f in gc.yOffsets)
+            //    MakinBacon(f);
+            foreach(SpawnPoint sP in gc.baconOffsetArray)
+            {
+                MakinBacon(sP.position);
+            }
         }
     }
 
@@ -47,7 +52,7 @@ public class BaconSpawner : MonoBehaviour {
         }
     }
 
-    public void respawnBacon(float yOffset)
+    public void respawnBacon(Vector3 yOffset)//float yOffset)
     {
         Debug.Log("yOffset " + yOffset);
         beginRespawn = true;
@@ -55,16 +60,16 @@ public class BaconSpawner : MonoBehaviour {
     }
 
     // Spawn a new strip of bacon
-    private void MakinBacon(float yOffset)
+    private void MakinBacon(Vector3 position)//float yOffset)
     {
-        Pan p = FindObjectOfType<Pan>();
-        Vector3 v3 = p.transform.position;
+        //Pan p = FindObjectOfType<Pan>();
+        //Vector3 v3 = p.transform.position;
 
-        v3.y = v3.y + yOffset;
+        //v3.y = v3.y + yOffset;
         
         // Instantiate the piece of bacon currently in the last index of Next Piece array
         int lastElement = nextBaconPiece.Length - 1;
-        Instantiate(nextBaconPiece[lastElement], v3, Quaternion.identity);
+        Instantiate(nextBaconPiece[lastElement], position, Quaternion.identity);
 
         // Increase the total count
         GameController gc = FindObjectOfType<GameController>();
