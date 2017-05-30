@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
-    [System.Serializable]
-    public class baconOffset
-    {
-        public float offset
-        { get; set; }
-        public bool occupied
-        { get; set; }
-    }
+    //[System.Serializable]
+    //public class baconOffset
+    //{
+    //    public float offset
+    //    { get; set; }
+    //    public bool occupied
+    //    { get; set; }
+    //}
 
     public int maxFails = 0;
     public int maxStrips = 0;
@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     //[HideInInspector]
     public float[] yOffsets;
     private BaconSpawner baconSpawner;
-    public baconOffset[] baconOffsetArray;
+    public SpawnPoint[] baconOffsetArray;
 
     // UI variables
     public Button resetButton;
