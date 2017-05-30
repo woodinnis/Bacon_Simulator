@@ -24,14 +24,6 @@ public class BaconSpawner : MonoBehaviour {
         {
             GenerateBacon(i);
         }
-
-        GameController gc = FindObjectOfType<GameController>();
-
-        // If no bacon exists in the scene, place bacon
-        //if (!FindObjectOfType<Bacon>())
-        //{
-        //    MakinBacon(spawnPosition);
-        //}
     }
 
     void Update()
@@ -68,6 +60,7 @@ public class BaconSpawner : MonoBehaviour {
         // Increase the total count
         GameController gc = FindObjectOfType<GameController>();
         gc.baconCount++;
+        occupiedSpawnPoint = true;
 
         // Shift the array up, and generate a new piece in the Next Piece array
         ShiftBaconArrayUp();

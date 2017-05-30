@@ -86,10 +86,15 @@ public class GameController : MonoBehaviour
         // Check total bacon pieces in the scene
         if (CheckTotalBaconCount())
         {
-            //float newBaconLocation = 0.0f;
-            Vector3 newBaconLocation = Vector3.zero;
-            newBaconLocation = NewBaconLocation();
-            //baconSpawner.respawnBacon(newBaconLocation);
+            int baconSpawnerCount = baconSpawner.Length;
+
+            for (int i = 0; i < baconSpawnerCount; i++)
+            {
+                if (!baconSpawner[i].occupiedSpawnPoint)
+                {
+                    baconSpawner[i].respawnBacon(baconSpawner[i].transform.position);
+                }
+            }
         }
 
         // Check for a button press on the Quit button
@@ -110,100 +115,18 @@ public class GameController : MonoBehaviour
     {
         //float newBaconLocation = 0.0f;
         Vector3 newBaconLocation = Vector3.zero;
-        //int baconOffsetCount = baconOffsetArray.Length;
+        int baconSpawnerCount = baconSpawner.Length;
 
-        //for(int i = 0; i < baconOffsetCount; i++)
-        //{
-        //    if (baconOffsetArray[i].occupied == false)
-        //    {
-        //        Debug.Log("Spawn Point Index = " + i);
-        //        Debug.Log("New Position = " + baconOffsetArray[i].position);
-        //        newBaconLocation = baconOffsetArray[i].position;
-                
-        //        return newBaconLocation;// baconOffsetArray[i].offset;
-        //    }
-        //    else
-        //        continue;
-        //}
-
+        for(int i = 0; i < baconSpawnerCount; i++)
+        {
+            if (baconSpawner[i].occupiedSpawnPoint)
+            {
+                return baconSpawner[i].transform.position;
+            }
+        }
         return newBaconLocation;
 
-        //foreach (baconOffset b in baconOffsetArray)
-        //{
-        //    //Debug.Log("How about Here?");
-        //    if (b.occupied == false)
-        //    {
-        //        //Debug.Log(b.offset + "Is unoccupied");
-        //        newBaconLocation = b.offset;
-        //    }
-        //    else
-        //        continue;
-        //}
-
-
-        ////Check for a mouse click
-        //if (Input.GetMouseButton(0))
-        //{
-        //    //Debug.Log("Am I Even Getting Here");
-        //    // Get mouse position and convert to usable coordinates
-        //    //Vector3 mousePos = Input.mousePosition;
-        //    //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        //    //float newBaconLocation = mousePos.y;
-
-        //    //Debug.Log("Size of the Bacon Offset Array: " + baconOffsetArray.Length);
-        //    foreach(baconOffset b in baconOffsetArray)
-        //    {
-        //        //Debug.Log("How about Here?");
-        //        if (b.occupied == false)
-        //        {
-        //            //Debug.Log(b.offset + "Is unoccupied");
-        //            newBaconLocation = b.offset;
-        //        }
-        //        else
-        //            continue;
-        //    }
-        //    return newBaconLocation;
-        //}
-        //else
-        //    return newBaconLocation;
-
-        // Check all default yOffsets for a piece of bacon
-        //Bacon[] checkYoffsets = FindObjectsOfType<Bacon>();
-        //bool yOffsetTest = false;
-        //float newOffset = 0.0f;
-
-        //for(int i = 0; i < yOffsets.Length; i++)
-        //foreach(float y in yOffsets)
-        //{
-        //    foreach(Bacon b in checkYoffsets)
-        //    {
-        //        if (b.transform.position.y == y)
-        //            break;
-        //        else
-        //        {
-        //            newOffset = y;
-        //            break;
-        //            //Debug.Log("Bacon Offsets: " + yOffsets[i]);
-        //        }
-        //    }
-        //Debug.Log("yOffset: " + y);
-
-        //foreach (Bacon b in checkYoffsets)
-        //    //Debug.Log("Bacon Offsets: " + b.transform.position.y);
-        //    if (y == b.transform.position.y)
-        //        Debug.Log("Missing: " + y);
-
-        //{
-        //    if (b.transform.position.y == y)
-        //        break;
-        //    else
-        //        return y;
-        //}
-        //return 0;
-        //
-
-        //return 0f;}
+       
     }
 
     // Enable or disable Reset button
