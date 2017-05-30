@@ -30,10 +30,8 @@ public class GameController : MonoBehaviour
     // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
-    //[HideInInspector]
-    public float[] yOffsets;
-    private BaconSpawner baconSpawner;
-    public SpawnPoint[] baconOffsetArray;
+    [SerializeField]
+    private BaconSpawner[] baconSpawner;
 
     // UI variables
     public Button resetButton;
@@ -58,28 +56,19 @@ public class GameController : MonoBehaviour
     {
 
         // Find and assign the bacon spawner 
-        baconSpawner = FindObjectOfType<BaconSpawner>();
+        baconSpawner = FindObjectsOfType<BaconSpawner>();
 
-        int baconOffsetCount = baconOffsetArray.Length;
+        // Count the number of spawners in the scene
+        int baconSpawnerCount = baconSpawner.Length;
 
-        for(int i = 0; i < baconOffsetCount; i++)
+        Debug.Log("There are " + baconSpawnerCount + " Spawners");
+
+        if (!FindObjectOfType<Bacon>())
         {
-            baconOffsetArray[i] = GetComponentInChildren<SpawnPoint>();
-        }
-
-        // Set default values for Offset class array
-        for (int i = 0; i < yOffsets.Length; i++)
-        {
-            //baconOffsetArray[i].offset = yOffsets[i];
-            baconOffsetArray[i].occupied = true;
-            Debug.Log("Spawn Points: ");
-            foreach(SpawnPoint sp in baconOffsetArray)
-            {
-                Debug.Log(sp.position);
-            }
+            for (int i = 0; i < baconSpawnerCount; i++)
+                baconSpawner[i].respawnBacon(baconSpawner[i].transform.position);
         }
     }
-
 
     // Update is called once per frame
     void Update()
@@ -100,7 +89,7 @@ public class GameController : MonoBehaviour
             //float newBaconLocation = 0.0f;
             Vector3 newBaconLocation = Vector3.zero;
             newBaconLocation = NewBaconLocation();
-            baconSpawner.respawnBacon(newBaconLocation);
+            //baconSpawner.respawnBacon(newBaconLocation);
         }
 
         // Check for a button press on the Quit button
@@ -121,21 +110,21 @@ public class GameController : MonoBehaviour
     {
         //float newBaconLocation = 0.0f;
         Vector3 newBaconLocation = Vector3.zero;
-        int baconOffsetCount = baconOffsetArray.Length;
+        //int baconOffsetCount = baconOffsetArray.Length;
 
-        for(int i = 0; i < baconOffsetCount; i++)
-        {
-            if (baconOffsetArray[i].occupied == false)
-            {
-                Debug.Log("Spawn Point Index = " + i);
-                Debug.Log("New Position = " + baconOffsetArray[i].position);
-                newBaconLocation = baconOffsetArray[i].position;
+        //for(int i = 0; i < baconOffsetCount; i++)
+        //{
+        //    if (baconOffsetArray[i].occupied == false)
+        //    {
+        //        Debug.Log("Spawn Point Index = " + i);
+        //        Debug.Log("New Position = " + baconOffsetArray[i].position);
+        //        newBaconLocation = baconOffsetArray[i].position;
                 
-                return newBaconLocation;// baconOffsetArray[i].offset;
-            }
-            else
-                continue;
-        }
+        //        return newBaconLocation;// baconOffsetArray[i].offset;
+        //    }
+        //    else
+        //        continue;
+        //}
 
         return newBaconLocation;
 

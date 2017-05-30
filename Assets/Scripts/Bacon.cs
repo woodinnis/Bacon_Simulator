@@ -156,7 +156,7 @@ public class Bacon : MonoBehaviour {
     {
 
         Debug.Log("Bacon Offset Index: " + yOffsetIndex);
-        gc.baconOffsetArray[yOffsetIndex].occupied = false;
+        //gc.baconOffsetArray[yOffsetIndex].occupied = false;
         Debug.Log("Bacon Offset: " + yOffset);
         
         //for (int i = 0; i < gc.baconOffsetArray.Length; i++)

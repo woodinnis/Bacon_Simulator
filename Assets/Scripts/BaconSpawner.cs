@@ -8,13 +8,17 @@ public class BaconSpawner : MonoBehaviour {
     public Bacon[] nextBaconPiece;
     public int nextBaconCountdown = 0;
 
+    public bool occupiedSpawnPoint = false;
+
     private bool beginRespawn = false;
-    //private float respawnOffset = 0.0f;
-    private Vector3 respawnOffset = Vector3.zero;
+    private Vector3 spawnPosition;
     private float timerCount = 0.0f;
 
     void Start ()
     {
+        // Set the spawn position to the current transform of the BaconSpawner
+        spawnPosition = transform.position;
+
         // Fill the Next Piece array
         for (int i = 0; i < nextBaconPieceCount; i++)
         {
@@ -24,15 +28,10 @@ public class BaconSpawner : MonoBehaviour {
         GameController gc = FindObjectOfType<GameController>();
 
         // If no bacon exists in the scene, place bacon
-        if (!FindObjectOfType<Bacon>())
-        {
-            //foreach (float f in gc.yOffsets)
-            //    MakinBacon(f);
-            foreach(SpawnPoint sP in gc.baconOffsetArray)
-            {
-                MakinBacon(sP.position);
-            }
-        }
+        //if (!FindObjectOfType<Bacon>())
+        //{
+        //    MakinBacon(spawnPosition);
+        //}
     }
 
     void Update()
@@ -45,28 +44,23 @@ public class BaconSpawner : MonoBehaviour {
             if (timerCount > nextBaconCountdown)
             {
                 beginRespawn = false;
-                MakinBacon(respawnOffset);
+                MakinBacon(spawnPosition);
                 
                 timerCount = 0;
             }
         }
     }
 
-    public void respawnBacon(Vector3 yOffset)//float yOffset)
+    public void respawnBacon(Vector3 position)
     {
-        Debug.Log("yOffset " + yOffset);
+        Debug.Log("Respawn Position " + position);
         beginRespawn = true;
-        respawnOffset = yOffset;
+        spawnPosition = position;
     }
 
     // Spawn a new strip of bacon
-    private void MakinBacon(Vector3 position)//float yOffset)
-    {
-        //Pan p = FindObjectOfType<Pan>();
-        //Vector3 v3 = p.transform.position;
-
-        //v3.y = v3.y + yOffset;
-        
+    private void MakinBacon(Vector3 position)
+    { 
         // Instantiate the piece of bacon currently in the last index of Next Piece array
         int lastElement = nextBaconPiece.Length - 1;
         Instantiate(nextBaconPiece[lastElement], position, Quaternion.identity);
