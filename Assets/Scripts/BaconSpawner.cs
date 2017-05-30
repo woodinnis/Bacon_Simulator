@@ -45,7 +45,6 @@ public class BaconSpawner : MonoBehaviour {
 
     public void respawnBacon(Vector3 position)
     {
-        Debug.Log("Respawn Position " + position);
         beginRespawn = true;
         spawnPosition = position;
     }
@@ -92,30 +91,5 @@ public class BaconSpawner : MonoBehaviour {
         index = Random.Range(0, baconTypes.Length);
         return index;
     }
-
-    // Timer function
-    //void timer(float targetTime)
-    //{
-    //    float currentTime = 0.0f;
-
-    //    while(currentTime < targetTime)
-    //    {
-    //        Debug.Log("Current Time: " + currentTime.ToString());
-    //        currentTime += Time.deltaTime;
-
-    //        if (currentTime >= targetTime)
-    //        {
-    //            timerEnded();
-    //        }
-    //    }
-    //}
-
-    // Perform this function only when the timer has ended
-
-    //bool timerEnded()
-    //{
-    //    Debug.Log("Timer Ended");
-    //    return true;
-    //}
 
 }
