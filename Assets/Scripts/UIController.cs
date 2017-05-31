@@ -6,8 +6,7 @@ public class UIController : MonoBehaviour {
 
     public Button pauseButton;
     public PauseMenu pauseMenu;
-    public GameObject wakawaka;
-
+    
 	// Use this for initialization
 	void Start () {
 
@@ -21,7 +20,11 @@ public class UIController : MonoBehaviour {
     //  Pause Button functions
     void pauseButtonClicked()
     {
+        //  Enable the pause menu
         pauseMenu.enabled = true;
         pauseMenu.gameObject.SetActive(true);
+        //  Disable the pause button
+        enabled = false;
+        pauseButton.gameObject.SetActive(false);
     }
 }

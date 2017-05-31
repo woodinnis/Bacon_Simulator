@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour {
     public Button ResumeButton;
     public Button QuitButton;
 
+    public Button PauseButton;
     //private Image panelImage;
     
 
@@ -37,7 +38,13 @@ public class PauseMenu : MonoBehaviour {
     // Resume
     void resumeButtonClicked()
     {
-        Debug.Log("Continue your revelries");
+        //  Reenable and reactivate the Pause Button
+        PauseButton.enabled = true;
+        PauseButton.gameObject.SetActive(true);
+
+        //  Disable and deactivate the pause menu
+        gameObject.SetActive(false);
+        enabled = false;
     }
 
     //  Quit
