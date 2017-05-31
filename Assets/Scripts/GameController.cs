@@ -1,8 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
+
+    //[System.Serializable]
+    //public class baconOffset
+    //{
+    //    public float offset
+    //    { get; set; }
+    //    public bool occupied
+    //    { get; set; }
+    //}
 
     public int maxFails = 0;
     public int maxStrips = 0;
@@ -19,9 +30,8 @@ public class GameController : MonoBehaviour {
     // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
-    [HideInInspector]
-    public float[] yOffsets;
-    private BaconSpawner baconSpawner;
+    [SerializeField]
+    private BaconSpawner[] baconSpawner;
 
     // UI variables
     public Button resetButton;
@@ -42,15 +52,26 @@ public class GameController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         // Find and assign the bacon spawner 
-        baconSpawner = FindObjectOfType<BaconSpawner>();
+        baconSpawner = FindObjectsOfType<BaconSpawner>();
+
+        // Count the number of spawners in the scene
+        int baconSpawnerCount = baconSpawner.Length;
+
+        Debug.Log("There are " + baconSpawnerCount + " Spawners");
+
+        if (!FindObjectOfType<Bacon>())
+        {
+            for (int i = 0; i < baconSpawnerCount; i++)
+                baconSpawner[i].respawnBacon(baconSpawner[i].transform.position);
+        }
     }
 
-
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         scoreField.text = score.ToString();
         failField.text = failCount.ToString();
@@ -65,7 +86,15 @@ public class GameController : MonoBehaviour {
         // Check total bacon pieces in the scene
         if (CheckTotalBaconCount())
         {
-            baconSpawner.respawnBacon(NewBaconLocation());
+            int baconSpawnerCount = baconSpawner.Length;
+
+            for (int i = 0; i < baconSpawnerCount; i++)
+            {
+                if (!baconSpawner[i].occupiedSpawnPoint)
+                {
+                    baconSpawner[i].respawnBacon(baconSpawner[i].transform.position);
+                }
+            }
         }
 
         // Check for a button press on the Quit button
@@ -81,59 +110,23 @@ public class GameController : MonoBehaviour {
             return false;
     }
 
-    float NewBaconLocation()
+    //float NewBaconLocation()
+    Vector3 NewBaconLocation()
     {
-        
-        //Check for a mouse click
-        if (Input.GetMouseButton(0))
+        //float newBaconLocation = 0.0f;
+        Vector3 newBaconLocation = Vector3.zero;
+        int baconSpawnerCount = baconSpawner.Length;
+
+        for(int i = 0; i < baconSpawnerCount; i++)
+        {
+            if (baconSpawner[i].occupiedSpawnPoint)
             {
-                // Get mouse position and convert to usable coordinates
-                Vector3 mousePos = Input.mousePosition;
-                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-                float newBaconLocation = mousePos.y;
-
-                return newBaconLocation;
+                return baconSpawner[i].transform.position;
             }
-            else
-                return 0.0f;
-        
-        // Check all default yOffsets for a piece of bacon
-        //Bacon[] checkYoffsets = FindObjectsOfType<Bacon>();
-        //bool yOffsetTest = false;
-        //float newOffset = 0.0f;
-        
-        //for(int i = 0; i < yOffsets.Length; i++)
-        //foreach(float y in yOffsets)
-        //{
-        //    foreach(Bacon b in checkYoffsets)
-        //    {
-        //        if (b.transform.position.y == y)
-        //            break;
-        //        else
-        //        {
-        //            newOffset = y;
-        //            break;
-        //            //Debug.Log("Bacon Offsets: " + yOffsets[i]);
-        //        }
-        //    }
-            //Debug.Log("yOffset: " + y);
+        }
+        return newBaconLocation;
 
-            //foreach (Bacon b in checkYoffsets)
-            //    //Debug.Log("Bacon Offsets: " + b.transform.position.y);
-            //    if (y == b.transform.position.y)
-            //        Debug.Log("Missing: " + y);
-
-            //{
-            //    if (b.transform.position.y == y)
-            //        break;
-            //    else
-            //        return y;
-            //}
-            //return 0;
-        //
-
-        //return 0f;}
+       
     }
 
     // Enable or disable Reset button
@@ -156,13 +149,13 @@ public class GameController : MonoBehaviour {
     // Reset the game when reset button is pressed
     public void ResetGameState()
     {
-        
+
         // Destroy all instances of bacon
         foreach (Bacon b in FindObjectsOfType<Bacon>())
         {
             Destroy(b.gameObject);
         }
-        
+
         // Reset score and fails
         score = 0;
         failCount = 0;
@@ -175,6 +168,6 @@ public class GameController : MonoBehaviour {
     {
         Application.Quit();
     }
-   
-    
+
+
 }
