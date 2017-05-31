@@ -23,8 +23,12 @@ public class UIController : MonoBehaviour {
         //  Enable the pause menu
         pauseMenu.enabled = true;
         pauseMenu.gameObject.SetActive(true);
+        
         //  Disable the pause button
         enabled = false;
         pauseButton.gameObject.SetActive(false);
+
+        //  Pause game time
+        Time.timeScale = 0;
     }
 }

@@ -45,6 +45,9 @@ public class PauseMenu : MonoBehaviour {
         //  Disable and deactivate the pause menu
         gameObject.SetActive(false);
         enabled = false;
+
+        //  Restart regular time
+        Time.timeScale = 1;
     }
 
     //  Quit
