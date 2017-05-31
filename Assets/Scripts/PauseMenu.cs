@@ -17,8 +17,8 @@ public class PauseMenu : MonoBehaviour {
         panelImage = GetComponent<Image>();
 
         //  Add listeners for all pause menu buttons
-        //RestartButton.onClick.AddListener(restartButtonClicked);
-        //ResumeButton.onClick.AddListener(resumeButtonClicked);
+        RestartButton.onClick.AddListener(restartButtonClicked);
+        ResumeButton.onClick.AddListener(resumeButtonClicked);
         QuitButton.onClick.AddListener(quitButtonClicked);
     }
 
@@ -31,13 +31,13 @@ public class PauseMenu : MonoBehaviour {
     //  Restart
     void restartButtonClicked()
     {
-        //  To be filled in
+        Debug.Log("START AGAIN!");
     }
 
     // Resume
     void resumeButtonClicked()
     {
-        //  To be filled in
+        Debug.Log("Continue your revelries");
     }
 
     //  Quit
