@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PauseMenu : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    private Image panelImage;
+
+	void Awake()
+    {
+        panelImage = GetComponent<Image>();
+    }
+
+    void Start()
+    {
+        panelImage.enabled = false;
+    }
 }
