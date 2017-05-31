@@ -22,7 +22,6 @@ public class Bacon : MonoBehaviour {
     
     private SpriteRenderer sprite;
     //private Transform panTransform;
-    //private float yOffset;
 
     [HideInInspector]
     public Timer timer;
@@ -102,7 +101,10 @@ public class Bacon : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             float currentTime = timer.currentTime;
-
+            
+            float yOffset = transform.position.y;
+            int yOffsetIndex = 0;
+            
             // If the player clicks a cooked piece of bacon, flip it over and cook the other side
             // Take 5 seconds off the timer
             if ((baconState == BaconState.baconRaw) && (currentTime > cookedTime) 
@@ -118,8 +120,8 @@ public class Bacon : MonoBehaviour {
                 gc.score++;
                 gc.baconCount--;
 
-                // Remove bacon from pan
-                Destroy(gameObject);
+                killBacon(yOffset, yOffsetIndex);
+
             }
             // If bacon burns
             if (baconState == BaconState.baconBurned)
@@ -130,27 +132,46 @@ public class Bacon : MonoBehaviour {
                     gc.failCount++;
                     gc.baconCount--;
 
-                    Destroy(gameObject);
+                    killBacon(yOffset, yOffsetIndex);
                 }
             }
         }
     }
 
-    void OnMouseDrag()
+    void killBacon(float yOffset, int yOffsetIndex)
     {
-        timer.isPaused = true;
 
-        Vector3 v3 = Vector3.zero;
-        Vector3 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        // Identify and count the BaconSpawners in the scene
+        BaconSpawner[] baconSpawners;
+        baconSpawners = FindObjectsOfType<BaconSpawner>();
+        int baconSpawnersCount = baconSpawners.Length;
 
-        v3.x = 0.0f;
-        v3.y = mousePos.y;
-        transform.position = v3;
+        // Identity the BaconSpawner alligned with this Bacon piece and set its occupied boolean to false
+        for(int i = 0; i < baconSpawnersCount; i++)
+        {
+            if (baconSpawners[i].transform.position == this.transform.position)
+                baconSpawners[i].occupiedSpawnPoint = false;
+        }       
+
+        // Destroy the strip
+        Destroy(gameObject);
     }
-    void OnMouseUp()
-    {
-        if (timer.isPaused)
-            timer.isPaused = false;
-    }
+
+    //void OnMouseDrag()
+    //{
+    //    timer.isPaused = true;
+
+    //    Vector3 v3 = Vector3.zero;
+    //    Vector3 mousePos = Input.mousePosition;
+    //    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+    //    v3.x = 0.0f;
+    //    v3.y = mousePos.y;
+    //    transform.position = v3;
+    //}
+    //void OnMouseUp()
+    //{
+    //    if (timer.isPaused)
+    //        timer.isPaused = false;
+    //}
 }

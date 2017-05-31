@@ -86,6 +86,7 @@ Assets/Scripts/BaconSpawner.cs
 Assets/Scripts/GameController.cs
 Assets/Scripts/Pan.cs
 Assets/Scripts/ResetButton.cs
+Assets/Scripts/SpawnPoint.cs
 Assets/Scripts/Timer.cs
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Runtime.Serialization.dll"
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.Linq.dll"
