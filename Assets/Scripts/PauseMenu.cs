@@ -9,12 +9,12 @@ public class PauseMenu : MonoBehaviour {
     public Button ResumeButton;
     public Button QuitButton;
 
-    private Image panelImage;
+    //private Image panelImage;
     
 
 	void Awake()
     {
-        panelImage = GetComponent<Image>();
+        //panelImage = GetComponent<Image>();
 
         //  Add listeners for all pause menu buttons
         RestartButton.onClick.AddListener(restartButtonClicked);
@@ -24,7 +24,7 @@ public class PauseMenu : MonoBehaviour {
 
     void Start()
     {
-        panelImage.enabled = false;
+        //panelImage.enabled = false;
     }
 
     //  Functions performed when the corresponding pause menu button is clicked
