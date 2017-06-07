@@ -156,11 +156,22 @@ public class GameController : MonoBehaviour
             Destroy(b.gameObject);
         }
 
-        // Reset score and fails
+        //  Reset all Bacon Spawners
+        int baconSpawnerCount = baconSpawner.Length;
+        for (int i = 0; i < baconSpawnerCount; i++)
+        {
+            if (baconSpawner[i].occupiedSpawnPoint)
+            {
+                baconSpawner[i].occupiedSpawnPoint = false;
+            }
+
+            baconSpawner[i].resetBaconTimer();
+        }
+
+        //  Reset strip count, score, and fails
+        baconCount = 0;
         score = 0;
         failCount = 0;
-
-        SetResetButtonState(false);
     }
 
     // Seriously, do you need this explained?
