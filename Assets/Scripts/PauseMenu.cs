@@ -38,8 +38,6 @@ public class PauseMenu : MonoBehaviour {
 
         //  Deactivate the pause menu
         resumeButtonClicked();
-
-        //Debug.Log("START AGAIN!");
     }
 
     // Resume
@@ -60,6 +58,12 @@ public class PauseMenu : MonoBehaviour {
     //  Quit
     void quitButtonClicked()
     {
-        Debug.Log("OW! Stop that!");
+        //  Stop the player while using the editor
+        //  This must be disabled when building for the target platform
+        //if(Application.isEditor)
+        //    UnityEditor.EditorApplication.isPlaying = false;
+
+        // Quit the application
+        Application.Quit();
     }
 }
