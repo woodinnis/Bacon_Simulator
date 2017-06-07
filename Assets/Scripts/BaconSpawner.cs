@@ -37,10 +37,15 @@ public class BaconSpawner : MonoBehaviour {
             {
                 beginRespawn = false;
                 MakinBacon(spawnPosition);
-                
-                timerCount = 0;
+
+                resetBaconTimer();
             }
         }
+    }
+
+    public void resetBaconTimer()
+    {
+        timerCount = 0.0f;
     }
 
     public void respawnBacon(Vector3 position)
