@@ -168,12 +168,8 @@ public class GameController : MonoBehaviour
             baconSpawner[i].resetBaconTimer();
         }
 
-        //  Reset the timer
-        //Timer t = FindObjectOfType<Timer>();
-        
-        //t.timerEnded();
-
-        // Reset score and fails
+        //  Reset strip count, score, and fails
+        baconCount = 0;
         score = 0;
         failCount = 0;
     }
