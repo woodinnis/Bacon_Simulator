@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\ResetButton.cs" />
      <Compile Include="Assets\Scripts\SpawnPoint.cs" />
+     <Compile Include="Assets\Scripts\StartButton.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
      <Compile Include="Assets\Scripts\UIController.cs" />
  <Reference Include="UnityEngine.UI">
