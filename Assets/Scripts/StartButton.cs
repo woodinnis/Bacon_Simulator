@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class StartButton : MonoBehaviour {
 
+    public int nextSceneBuildIndex;
     private Button startButton;
 
 	// Use this for initialization
@@ -14,6 +16,7 @@ public class StartButton : MonoBehaviour {
 
     void startButtonClicked()
     {
-        Debug.Log("I did a thing");
+        //  Load indexed scene
+        SceneManager.LoadSceneAsync(nextSceneBuildIndex, LoadSceneMode.Single);
     }
 }
