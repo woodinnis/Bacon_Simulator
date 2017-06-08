@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PauseMenu : MonoBehaviour {
@@ -64,6 +65,9 @@ public class PauseMenu : MonoBehaviour {
         //    UnityEditor.EditorApplication.isPlaying = false;
 
         // Quit the application
-        Application.Quit();
+        // Application.Quit();
+        //  Return to the main menu
+        SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
+        
     }
 }

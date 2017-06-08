@@ -5,7 +5,7 @@ using System.Collections;
 
 public class StartButton : MonoBehaviour {
 
-    public int nextSceneBuildIndex;
+    public string nextScene;
     private Button startButton;
 
 	// Use this for initialization
@@ -16,7 +16,7 @@ public class StartButton : MonoBehaviour {
 
     void startButtonClicked()
     {
-        //  Load indexed scene
-        SceneManager.LoadSceneAsync(nextSceneBuildIndex, LoadSceneMode.Single);
+        //  Load next scene
+        SceneManager.LoadSceneAsync(nextScene, LoadSceneMode.Single);
     }
 }
