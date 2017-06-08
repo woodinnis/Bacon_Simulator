@@ -5,16 +5,6 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-
-    //[System.Serializable]
-    //public class baconOffset
-    //{
-    //    public float offset
-    //    { get; set; }
-    //    public bool occupied
-    //    { get; set; }
-    //}
-
     public int maxFails = 0;
     public int maxStrips = 0;
 
@@ -54,6 +44,8 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //  Set standard time scale
+        Time.timeScale = 1;
 
         // Find and assign the bacon spawner 
         baconSpawner = FindObjectsOfType<BaconSpawner>();
@@ -61,8 +53,7 @@ public class GameController : MonoBehaviour
         // Count the number of spawners in the scene
         int baconSpawnerCount = baconSpawner.Length;
 
-        Debug.Log("There are " + baconSpawnerCount + " Spawners");
-
+        //  Load up the bacon
         if (!FindObjectOfType<Bacon>())
         {
             for (int i = 0; i < baconSpawnerCount; i++)
