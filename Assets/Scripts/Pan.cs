@@ -9,7 +9,7 @@ public class Pan : MonoBehaviour
     public float xOffset;
     public float yOffset;
     public Vector3 DefaultV3;
-    public CircleCollider2D[] CircleCollider2D_HeatZones;
+    public HeatZoneCollider[] HeatZoneCollider_HeatZones;
 
     public Text text;
     
@@ -37,17 +37,17 @@ public class Pan : MonoBehaviour
         Vector2 vector2_mousePosition = Input.mousePosition;
         vector2_mousePosition = Camera.main.ScreenToWorldPoint(vector2_mousePosition);
 
-        if (CircleCollider2D_HeatZones[2].OverlapPoint(vector2_mousePosition))
+        if (HeatZoneCollider_HeatZones[2].GetComponent<CircleCollider2D>().OverlapPoint(vector2_mousePosition))
         {
             text.text = "Zone 2";
             //text.text = vector2_mousePosition.ToString();
         }
-        else if (CircleCollider2D_HeatZones[1].OverlapPoint(vector2_mousePosition))
+        else if (HeatZoneCollider_HeatZones[1].GetComponent<CircleCollider2D>().OverlapPoint(vector2_mousePosition))
         {
             text.text = "Zone 1";
             //text.text = vector2_mousePosition.ToString();
         }
-        else if (CircleCollider2D_HeatZones[0].OverlapPoint(vector2_mousePosition))
+        else if (HeatZoneCollider_HeatZones[0].GetComponent<CircleCollider2D>().OverlapPoint(vector2_mousePosition))
         {
             text.text = "Zone 0";
             //text.text = vector2_mousePosition.ToString();
