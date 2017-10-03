@@ -9,8 +9,10 @@ public class Pan : MonoBehaviour
     public float xOffset;
     public float yOffset;
     public Vector3 DefaultV3;
+    public CircleCollider2D[] CircleCollider2D_HeatZones;
 
-    private Text text;
+    public Text text;
+    
 
     // Use this for initialization
     void Start()
@@ -21,34 +23,40 @@ public class Pan : MonoBehaviour
         DefaultV3 = Vector3.zero;
 
         DebugCurrentPanOffset();
-        //text.text = "I'm a pan";
     }
 
-    // Verify the mouse is over the pan
+    void Update()
+    {
+        
+    }
+
     void OnMouseOver()
     {
-        CheckMousePositionAndMovePan();
 
-        GameController gc = FindObjectOfType<GameController>();
-        float offsetTest = gc.panOffsetCheck;
+        // Obtain mouse position and correct for camera view
+        Vector2 vector2_mousePosition = Input.mousePosition;
+        vector2_mousePosition = Camera.main.ScreenToWorldPoint(vector2_mousePosition);
 
-        Bacon[] bacon;
-        bacon = FindObjectsOfType<Bacon>();
-
-        Vector3 V3 = transform.position;
-
-        // Check pan position and set offsets
-        xOffset = DefaultV3.x + V3.x;
-        yOffset = DefaultV3.y + V3.y;
-
-        if (xOffset >= offsetTest || yOffset >= offsetTest)
+        if (CircleCollider2D_HeatZones[2].OverlapPoint(vector2_mousePosition))
         {
-            foreach(Bacon b in bacon)
-            {
-                b.timer.targetTime -= gc.panShakeTimeReduction;
-                Debug.Log("Time for " + b + " reduced to " + b.timer.targetTime);
-            }
+            text.text = "Zone 2";
+            //text.text = vector2_mousePosition.ToString();
         }
+        else if (CircleCollider2D_HeatZones[1].OverlapPoint(vector2_mousePosition))
+        {
+            text.text = "Zone 1";
+            //text.text = vector2_mousePosition.ToString();
+        }
+        else if (CircleCollider2D_HeatZones[0].OverlapPoint(vector2_mousePosition))
+        {
+            text.text = "Zone 0";
+            //text.text = vector2_mousePosition.ToString();
+        }
+        else
+        {
+            text.text = "No Zone";
+        }
+
     }
 
     void OnMouseUp()
@@ -87,5 +95,4 @@ public class Pan : MonoBehaviour
         Debug.Log("X Offset: " + xOffset);
         Debug.Log("Y Offset: " + yOffset);
     }
-
 }
