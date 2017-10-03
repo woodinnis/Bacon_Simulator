@@ -18,6 +18,8 @@ public class Bacon : MonoBehaviour {
     public float flippedTimeReduction;
     public float burnedTime;
 
+    public Text BaconDebugText;
+
     private GameController gc;
     
     private SpriteRenderer sprite;
@@ -35,7 +37,7 @@ public class Bacon : MonoBehaviour {
         //yOffset = transform.position.y;
 
         // Find a text field in the current scene
-        //textField = FindObjectOfType<Text>();
+        BaconDebugText = FindObjectOfType<Text>();
 
         // Check for a timer component attached to the current object
         if((timer == null) && (GetComponent<Timer>() != null)){
@@ -120,7 +122,7 @@ public class Bacon : MonoBehaviour {
                 gc.score++;
                 gc.baconCount--;
 
-                killBacon(yOffset, yOffsetIndex);
+                //killBacon(yOffset, yOffsetIndex);
 
             }
             // If bacon burns
@@ -132,43 +134,54 @@ public class Bacon : MonoBehaviour {
                     gc.failCount++;
                     gc.baconCount--;
 
-                    killBacon(yOffset, yOffsetIndex);
+                    //killBacon(yOffset, yOffsetIndex);
                 }
             }
         }
     }
 
-    void killBacon(float yOffset, int yOffsetIndex)
+    //void killBacon(float yOffset, int yOffsetIndex)
+    //{
+
+    //    // Identify and count the BaconSpawners in the scene
+    //    BaconSpawner[] baconSpawners;
+    //    baconSpawners = FindObjectsOfType<BaconSpawner>();
+    //    int baconSpawnersCount = baconSpawners.Length;
+
+    //    // Identity the BaconSpawner alligned with this Bacon piece and set its occupied boolean to false
+    //    for(int i = 0; i < baconSpawnersCount; i++)
+    //    {
+    //        if (baconSpawners[i].transform.position == this.transform.position)
+    //            baconSpawners[i].occupiedSpawnPoint = false;
+    //    }       
+
+    //    // Destroy the strip
+    //    Destroy(gameObject);
+    //}
+
+    /// <summary>
+    /// 
+    /// Move bacon from the spawn panel (Next Piece) to the pan or from the pan to the finished panel (Cooked Pieces)
+    /// Should also be able to move pieces between points inside the pan
+    /// 
+    /// Must register a Vector2 mouse point in worldspace, and a release within appropriate zones. Should pull the heat multiplier from the 
+    /// Vector2 of any HeatZone in which it is released
+    /// 
+    /// </summary>
+
+    void OnMouseDrag()
     {
 
-        // Identify and count the BaconSpawners in the scene
-        BaconSpawner[] baconSpawners;
-        baconSpawners = FindObjectsOfType<BaconSpawner>();
-        int baconSpawnersCount = baconSpawners.Length;
+        // Obtain mouse position and correct for camera view
+        Vector2 mousePos = Input.mousePosition;
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        // Identity the BaconSpawner alligned with this Bacon piece and set its occupied boolean to false
-        for(int i = 0; i < baconSpawnersCount; i++)
-        {
-            if (baconSpawners[i].transform.position == this.transform.position)
-                baconSpawners[i].occupiedSpawnPoint = false;
-        }       
+        BaconDebugText.text = mousePos.ToString();
 
-        // Destroy the strip
-        Destroy(gameObject);
+        // Have bacon follow the mouse while it is dragged
+        transform.position = mousePos;
     }
 
-    //void OnMouseDrag()
-    //{
-    //    timer.isPaused = true;
-
-    //    Vector3 v3 = Vector3.zero;
-    //    Vector3 mousePos = Input.mousePosition;
-    //    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-    //    v3.x = 0.0f;
-    //    v3.y = mousePos.y;
-    //    transform.position = v3;
-    //}
     //void OnMouseUp()
     //{
     //    if (timer.isPaused)
