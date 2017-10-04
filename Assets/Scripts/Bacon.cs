@@ -25,8 +25,13 @@ public class Bacon : MonoBehaviour {
 
     // Times for cooking and burning bacon
     public float cookedTime;
-    public float flippedTimeReduction;
+    [SerializeField]
+    private float cookedTimeCache;
     public float burnedTime;
+    [SerializeField]
+    private float burnedTimeCache;
+    
+    private bool bool_BaconCookTimeMultiplied;
 
     public Text BaconDebugText;
 
@@ -42,8 +47,12 @@ public class Bacon : MonoBehaviour {
 
     void Awake()
     {
-        // Set starting state of the bacon;
+        // Set starting cooked state of the bacon
+        // Set all starting variables for the bacon
         baconState = BaconState.baconRaw;
+        bool_BaconCookTimeMultiplied = false;
+        cookedTimeCache = cookedTime;
+        burnedTimeCache = burnedTime;
 
         // Locate and set a GameController
         gc = FindObjectOfType<GameController>();
@@ -87,7 +96,6 @@ public class Bacon : MonoBehaviour {
 
         // Update the displayed time
         float currentTime = timer.currentTime;
-//        Debug.Log("Current Time: " + currentTime.ToString());
 
         // Perform check for collision with HeatZoneColliders
         // Verify mouse is not being held down
@@ -98,10 +106,17 @@ public class Bacon : MonoBehaviour {
 
             // Check the current bacon state
             CheckBaconState();
+
+            if(bool_BaconCookTimeMultiplied == false)
+            {
+                ResetBaconCooktime(transform.position);
+            }
         }
         // Pause the timer when no collision is detected
         else
+        {
             timer.isPaused = true;
+        }
         #region
 
         //Track the pan position and follow it
@@ -112,6 +127,40 @@ public class Bacon : MonoBehaviour {
         //    transform.position = v3;
         //
         #endregion
+    }
+
+    /// <summary>
+    /// 
+    /// Adjust cooked time and burned time of a piece of bacon based on the current Heat Zone the bacon
+    /// is colliding with
+    /// 
+    /// Uses the cached initial time values to reset times with each move to a new Heat Zone
+    /// </summary>
+    /// <param name="testPos"></param>
+    private void ResetBaconCooktime(Vector2 testPos)
+    {
+        bool_BaconCookTimeMultiplied = true;
+
+        // Check the current Heat Zone
+        // Adjust the target cooked and burned times according to its heat multiplier
+        if (heatZoneColliders[2].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
+        {
+            cookedTime = cookedTimeCache * heatZoneColliders[2].heatMultiplier;
+            burnedTime = burnedTimeCache * heatZoneColliders[2].heatMultiplier;
+        }
+        else if (heatZoneColliders[1].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
+        {
+            cookedTime = cookedTimeCache * heatZoneColliders[1].heatMultiplier;
+            burnedTime = burnedTimeCache * heatZoneColliders[1].heatMultiplier;
+        }
+        else if (heatZoneColliders[0].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
+        {
+            cookedTime = cookedTimeCache * heatZoneColliders[0].heatMultiplier;
+            burnedTime = burnedTimeCache * heatZoneColliders[0].heatMultiplier;
+        }
+
+        Debug.Log("Cooktime reset to: " + cookedTime);
+        Debug.Log("Burned Time reset to: " + burnedTime);
     }
 
 
@@ -227,6 +276,9 @@ public class Bacon : MonoBehaviour {
 
         // Have bacon follow the mouse while it is dragged
         transform.position = mousePos;
+
+        // Uncheck the cooktime multiplier, allowing it to be reset
+        bool_BaconCookTimeMultiplied = false;
     }
 
     void OnMouseUp()
@@ -255,21 +307,19 @@ public class Bacon : MonoBehaviour {
         // Check for collision with heatzones
         if (heatZoneColliders[2].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
         {
-//            Debug.Log("Heat Zone " + heatZoneColliders[2].heatMultiplier.ToString());
             bool_Collision = true;
         }
         else if (heatZoneColliders[1].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
         {
-//            Debug.Log("Heat Zone " + heatZoneColliders[1].heatMultiplier.ToString());
             bool_Collision = true;
         }
         else if (heatZoneColliders[0].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
         {
-//            Debug.Log("Heat Zone " + heatZoneColliders[0].heatMultiplier.ToString());
             bool_Collision = true;
         }
 
         // Return the results of the collision check
         return bool_Collision;
     }
+
 }
