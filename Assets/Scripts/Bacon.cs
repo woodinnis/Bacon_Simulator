@@ -31,21 +31,26 @@ public class Bacon : MonoBehaviour {
     //private Transform panTransform;
 
     //[HideInInspector]
-    //public Timer timer;
+    public Timer timer;
 
     void Awake()
     {
         // Set starting state of the bacon;
         baconState = BaconState.baconRaw;
 
+        // Locate and set a GameController
+        gc = FindObjectOfType<GameController>();
+
         // Check for a timer component attached to the current object
-        //if((timer == null) && (GetComponent<Timer>() != null)){
-        //    timer = GetComponent<Timer>();
-        //}
-        //else
-        //{
-        //    Debug.Log("No Timer Attached");
-        //}
+        if ((timer == null) && (GetComponent<Timer>() != null))
+        {
+            // Set the timer
+            timer = GetComponent<Timer>();
+        }
+        else
+        {
+            Debug.Log("No Timer Attached");
+        }
     }
 
 	// Use this for initialization
@@ -53,8 +58,9 @@ public class Bacon : MonoBehaviour {
         sprite = GetComponent<SpriteRenderer>();
         sprite.sprite = baconSprites[rawIndex];
 
-        // Set timer based on slice time
-        //timer.targetTime = cookedTime;
+        // Set timer based on slice time and pause
+        timer.targetTime = cookedTime;
+        timer.isPaused = true;
 
         // Find and set the Pan
         pan = FindObjectOfType<Pan>();
@@ -67,31 +73,32 @@ public class Bacon : MonoBehaviour {
         {
             heatZoneColliders[i] = pan.GetComponent<Pan>().HeatZoneCollider_HeatZones[i];
         }
-
-        gc = FindObjectOfType<GameController>();
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        //Track the pan position and follow it
-        ///*
-        //    Vector3 v3 = panTransform.position;
-        //    v3.y = v3.y + yOffset;
-        //    v3.z = -1;
-        //    transform.position = v3;
-        //*/
+        // Update the displayed time
+        float currentTime = timer.currentTime;
+        Debug.Log("Current Time: " + currentTime.ToString());
 
-        //Update the displayed time
-        //float currentTime = timer.currentTime;
+        // Perform check for collision with HeatZoneColliders
+        // Verify mouse is not being held down
+        if ((CheckHeatZoneCollision(transform.position)) && (!Input.GetMouseButton(0)))
+        {
+            // Unpause the timer
+            timer.isPaused = false;
 
-        //Update the sprite based on the current timer
-
-        // If Bacon has reached a cooked state, but not been flipped
-        //if (currentTime > cookedTime && baconState == BaconState.baconRaw)
-        //{
-        //    sprite.sprite = baconSprites[cookedIndex];
-        //}
+            // If Bacon has reached a cooked state, but not been flipped
+            if (currentTime > cookedTime && baconState == BaconState.baconRaw)
+            {
+                sprite.sprite = baconSprites[cookedIndex];
+            }
+        }
+        // Pause the timer when no collision is detected
+        else
+            timer.isPaused = true;
+        #region
         //If Bacon has reached a cooked state, and been flipped
         //else if (currentTime > cookedTime && baconState == BaconState.baconFlipped)
         //{
@@ -105,6 +112,15 @@ public class Bacon : MonoBehaviour {
         //    baconState = BaconState.baconBurned;
         //    sprite.sprite = baconSprites[burnedIndex];
         //}
+
+        //Track the pan position and follow it
+        //
+        //    Vector3 v3 = panTransform.position;
+        //    v3.y = v3.y + yOffset;
+        //    v3.z = -1;
+        //    transform.position = v3;
+        //
+        #endregion
     }
 
     void OnMouseOver()
@@ -195,18 +211,41 @@ public class Bacon : MonoBehaviour {
         Vector2 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
+        // Perform check for collision with HeatZoneColliders
+        if (CheckHeatZoneCollision(mousePos))
+            Debug.Log("Collision Registered");
+        else
+            Debug.Log("No Collision Registered");
+    }
+
+    /// <summary>
+    /// Perform a check for a collision between the mouse position and one of the HeatZoneColliders.
+    /// </summary>
+    /// <param name="testPos"></param>
+    /// <returns bool "bool_Collision"></returns>
+    private bool CheckHeatZoneCollision(Vector2 testPos)
+    {
+        // Boolean test for HeatZone Collision
+        bool bool_Collision = false;
+
         // Check for collision with heatzones
-        if (heatZoneColliders[2].GetComponent<CircleCollider2D>().OverlapPoint(mousePos))
+        if (heatZoneColliders[2].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
         {
             Debug.Log("Heat Zone " + heatZoneColliders[2].heatMultiplier.ToString());
+            bool_Collision = true;
         }
-        else if (heatZoneColliders[1].GetComponent<CircleCollider2D>().OverlapPoint(mousePos))
+        else if (heatZoneColliders[1].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
         {
             Debug.Log("Heat Zone " + heatZoneColliders[1].heatMultiplier.ToString());
+            bool_Collision = true;
         }
-        else if (heatZoneColliders[0].GetComponent<CircleCollider2D>().OverlapPoint(mousePos))
+        else if (heatZoneColliders[0].GetComponent<CircleCollider2D>().OverlapPoint(testPos))
         {
             Debug.Log("Heat Zone " + heatZoneColliders[0].heatMultiplier.ToString());
+            bool_Collision = true;
         }
+
+        // Return the results of the collision check
+        return bool_Collision;
     }
 }
