@@ -198,15 +198,15 @@ public class Bacon : MonoBehaviour {
         // Check for collision with heatzones
         if (heatZoneColliders[2].GetComponent<CircleCollider2D>().OverlapPoint(mousePos))
         {
-            BaconDebugText.text = heatZoneColliders[2].heatMultiplier.ToString();
+            Debug.Log("Heat Zone " + heatZoneColliders[2].heatMultiplier.ToString());
         }
         else if (heatZoneColliders[1].GetComponent<CircleCollider2D>().OverlapPoint(mousePos))
         {
-            BaconDebugText.text = heatZoneColliders[1].heatMultiplier.ToString();
+            Debug.Log("Heat Zone " + heatZoneColliders[1].heatMultiplier.ToString());
         }
         else if (heatZoneColliders[0].GetComponent<CircleCollider2D>().OverlapPoint(mousePos))
         {
-            BaconDebugText.text = heatZoneColliders[0].heatMultiplier.ToString();
+            Debug.Log("Heat Zone " + heatZoneColliders[0].heatMultiplier.ToString());
         }
     }
 }
