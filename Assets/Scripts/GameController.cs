@@ -82,9 +82,11 @@ public class GameController : MonoBehaviour
 
         FinishedPiecesBoxCheck(allBacons);
 
+        // Update displayed score
+        scoreField.text = score.ToString();
+
         // Proof of concept Update code
         #region
-        //scoreField.text = score.ToString();
         //failField.text = failCount.ToString();
 
         //// Test for failure count
