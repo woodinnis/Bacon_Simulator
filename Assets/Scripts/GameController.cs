@@ -119,27 +119,29 @@ public class GameController : MonoBehaviour
         // Test for bacon overlapping the finished pieces box
         foreach (Bacon bacon in allBacons)
         {
-            if (finishedPiecesCollider.IsTouching(bacon.GetComponent<BoxCollider2D>()))//(finishedPiecesCollider.OverlapPoint(bacon.transform.position))
+            if (finishedPiecesCollider.IsTouching(bacon.GetComponent<BoxCollider2D>()))
             {
-                // Set a new position for the bacon piece
-                // and move it to the finished pieces box
-                Vector2 moveToPan = new Vector2(bacon.transform.position.x, finishedPiecesCollider.transform.position.y);
-                bacon.transform.position = moveToPan;
+                // Set a new Vector based on the position of the bacon piece and the tray
+                Vector2 moveToPan = new Vector2(finishedPiecesCollider.transform.position.x, bacon.transform.position.y);
 
-                // Disable the collider
-                bacon.GetComponent<BoxCollider2D>().enabled = false;
+                // Move the bacon piece to the tray and disable the collider
+                if (!Input.GetMouseButton(0))
+                {
+                    bacon.transform.position = moveToPan;
+                    bacon.GetComponent<BoxCollider2D>().enabled = false;
 
-                // Add to the score for a successfully cooked piece
-                if (bacon.baconState == Bacon.BaconState.baconCooked)
-                {
-                    score++;
-                    Debug.Log("Bacon Cooked At: " + bacon.transform.position);
-                }
-                // Deduct from the score for a burnt piece
-                else if (bacon.baconState == Bacon.BaconState.baconBurned)
-                {
-                    score--;
-                    Debug.Log("Bacon Burned At: " + bacon.transform.position);
+                    // Add to the score for a successfully cooked piece
+                    if (bacon.baconState == Bacon.BaconState.baconCooked)
+                    {
+                        score++;
+                        Debug.Log("Bacon Cooked At: " + bacon.transform.position);
+                    }
+                    // Deduct from the score for a burnt piece
+                    else if (bacon.baconState == Bacon.BaconState.baconBurned)
+                    {
+                        score--;
+                        Debug.Log("Bacon Burned At: " + bacon.transform.position);
+                    }
                 }
             }
         }
