@@ -17,6 +17,6 @@ public class ResetButton : MonoBehaviour {
 	
 	void ButtonHasBeenClicked()
     {
-        gc.ResetGameState();
+ //       gc.ResetGameState();
     }
 }

@@ -35,7 +35,7 @@ public class PauseMenu : MonoBehaviour {
     {
         //  Reset the game
         GameController gc = FindObjectOfType<GameController>();
-        gc.ResetGameState();
+//        gc.ResetGameState();
 
         //  Deactivate the pause menu
         resumeButtonClicked();

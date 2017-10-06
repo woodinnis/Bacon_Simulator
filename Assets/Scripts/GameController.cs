@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public int failCount = 0;
 
+    public GameObject nextPieceBox;
     public GameObject finishedPieces;
     [SerializeField]
     private BoxCollider2D finishedPiecesCollider;
@@ -43,7 +44,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        SetResetButtonState(false);
+//        SetResetButtonState(false);
     }
 
     // Use this for initialization
@@ -82,6 +83,11 @@ public class GameController : MonoBehaviour
 
         FinishedPiecesBoxCheck(allBacons);
 
+        foreach(Bacon bacon in allBacons)
+        {
+            RespawnBacon(bacon);
+        }
+
         // Update displayed score
         scoreField.text = score.ToString();
 
@@ -111,7 +117,7 @@ public class GameController : MonoBehaviour
         //}
 
         // Check for a button press on the Quit button
-        quitButton.onClick.AddListener(QuitGame);
+//        quitButton.onClick.AddListener(QuitGame);
         #endregion
     }
 
@@ -146,19 +152,30 @@ public class GameController : MonoBehaviour
                     }
                 }
 
-                // Repeat for each bacon spawner in the scene
-                foreach (BaconSpawner baconSpawner in baconSpawnerArray)
-                {
-                    // Obtain positions 
-                    Vector2 baconSpawnerV2 = baconSpawner.transform.position;
-
-                    // Check for overlap between spawners and any active bacon in the scene
-                    if (!bacon.GetComponent<BoxCollider2D>().OverlapPoint(baconSpawnerV2))
-                    {
-                        baconSpawner.respawnBacon(baconSpawner.transform.position);
-                    }
-                }
+                //RespawnBacon(bacon);
             }
+        }
+    }
+
+    private void RespawnBacon(Bacon bacon)
+    {
+
+        BoxCollider2D nextPieceBoxCollider2D = nextPieceBox.GetComponent<BoxCollider2D>();
+
+        BoxCollider2D baconBoxCollider2D = bacon.GetComponent<BoxCollider2D>();
+
+        // Repeat for each bacon spawner in the scene
+        foreach (BaconSpawner baconSpawner in baconSpawnerArray)
+        {
+        // Obtain positions
+        Vector2 baconSpawnerV2 = baconSpawner.transform.position;
+
+            // Check for overlap between spawners and any active bacon in the scene
+            if (!bacon.GetComponent<BoxCollider2D>().OverlapPoint(baconSpawnerV2))
+                {
+
+                    baconSpawner.respawnBacon(baconSpawner.transform.position);
+                }
         }
     }
 
@@ -172,68 +189,66 @@ public class GameController : MonoBehaviour
     }
 
     //float NewBaconLocation()
-    Vector3 NewBaconLocation()
-    {
-        //float newBaconLocation = 0.0f;
-        Vector3 newBaconLocation = Vector3.zero;
-        int baconSpawnerCount = baconSpawnerArray.Length;
+    //Vector3 NewBaconLocation()
+    //{
+    //    float newBaconLocation = 0.0f;
+    //    Vector3 newBaconLocation = Vector3.zero;
+    //    int baconSpawnerCount = baconSpawnerArray.Length;
 
-        for(int i = 0; i < baconSpawnerCount; i++)
-        {
-            if (baconSpawnerArray[i].occupiedSpawnPoint)
-            {
-                return baconSpawnerArray[i].transform.position;
-            }
-        }
-        return newBaconLocation;
-
-       
-    }
+    //    for(int i = 0; i < baconSpawnerCount; i++)
+    //    {
+    //        if (baconSpawnerArray[i].occupiedSpawnPoint)
+    //        {
+    //            return baconSpawnerArray[i].transform.position;
+    //        }
+    //    }
+    //    return newBaconLocation;
+    //}
 
     // Enable or disable Reset button
-    void SetResetButtonState(bool buttonState)
-    {
-        if (buttonState)
-        {
-            resetButton.enabled = true;
-            resetButton.image.enabled = true;
-            resetButton.GetComponentInChildren<Text>().enabled = true;
-        }
-        else
-        {
-            resetButton.enabled = false;
-            resetButton.image.enabled = false;
-            resetButton.GetComponentInChildren<Text>().enabled = false;
-        }
-    }
+    //void SetResetButtonState(bool buttonState)
+    //{
+    //    if (buttonState)
+    //    {
+    //        resetButton.enabled = true;
+    //        resetButton.image.enabled = true;
+    //        resetButton.GetComponentInChildren<Text>().enabled = true;
+    //    }
+    //    else
+    //    {
+    //        resetButton.enabled = false;
+    //        resetButton.image.enabled = false;
+    //        resetButton.GetComponentInChildren<Text>().enabled = false;
+    //    }
+    //}
 
     // Reset the game when reset button is pressed
-    public void ResetGameState()
-    {
+    //public void ResetGameState()
+    //{
 
-        // Destroy all instances of bacon
-        foreach (Bacon b in FindObjectsOfType<Bacon>())
-        {
-            Destroy(b.gameObject);
-        }
+    //    // Destroy all instances of bacon
+    //    foreach (Bacon b in FindObjectsOfType<Bacon>())
+    //    {
+    //        Destroy(b.gameObject);
+    //    }
 
-        //  Reset all Bacon Spawners
-        int baconSpawnerCount = baconSpawnerArray.Length;
-        for (int i = 0; i < baconSpawnerCount; i++)
-        {
-            if (baconSpawnerArray[i].occupiedSpawnPoint)
-            {
-                baconSpawnerArray[i].occupiedSpawnPoint = false;
-            }
+    //    //  Reset all Bacon Spawners
+    //    int baconSpawnerCount = baconSpawnerArray.Length;
+    //    for (int i = 0; i < baconSpawnerCount; i++)
+    //    {
+    //        if (baconSpawnerArray[i].occupiedSpawnPoint)
+    //        {
+    //            baconSpawnerArray[i].occupiedSpawnPoint = false;
+    //        }
 
-            baconSpawnerArray[i].resetBaconTimer();
-        }
+    //        baconSpawnerArray[i].resetBaconTimer();
+    //    }
 
-        //  Reset strip count, score, and fails
-        baconCount = 0;
-        score = 0;
-        failCount = 0;
-    }
+    //    //  Reset strip count, score, and fails
+    //    baconCount = 0;
+    //    score = 0;
+    //    failCount = 0;
+    //}
 
     // Seriously, do you need this explained?
     void QuitGame()
