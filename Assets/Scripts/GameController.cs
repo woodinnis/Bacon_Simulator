@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public int baconCount;
     [SerializeField]
-    private BaconSpawner[] baconSpawner;
+    private BaconSpawner[] baconSpawnerArray;
     [SerializeField]
     private Bacon[] allBacons;
 
@@ -53,20 +53,20 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
 
         // Find and assign the bacon spawner 
-        baconSpawner = FindObjectsOfType<BaconSpawner>();
+        baconSpawnerArray = FindObjectsOfType<BaconSpawner>();
 
         // Find collider on the finished pieces field
         finishedPiecesCollider = finishedPieces.GetComponent<BoxCollider2D>();
 
         // Count the number of spawners in the scene
-        int baconSpawnerCount = baconSpawner.Length;
+        int baconSpawnerCount = baconSpawnerArray.Length;
 
         //  Load up the bacon
         if (!FindObjectOfType<Bacon>())
         {
             for (int i = 0; i < baconSpawnerCount; i++)
             {
-                baconSpawner[i].respawnBacon(baconSpawner[i].transform.position);
+                baconSpawnerArray[i].respawnBacon(baconSpawnerArray[i].transform.position);
             }
         }
     }
@@ -145,6 +145,19 @@ public class GameController : MonoBehaviour
                         Debug.Log("Bacon Burned At: " + bacon.transform.position);
                     }
                 }
+
+                // Repeat for each bacon spawner in the scene
+                foreach (BaconSpawner baconSpawner in baconSpawnerArray)
+                {
+                    // Obtain positions 
+                    Vector2 baconSpawnerV2 = baconSpawner.transform.position;
+
+                    // Check for overlap between spawners and any active bacon in the scene
+                    if (!bacon.GetComponent<BoxCollider2D>().OverlapPoint(baconSpawnerV2))
+                    {
+                        baconSpawner.respawnBacon(baconSpawner.transform.position);
+                    }
+                }
             }
         }
     }
@@ -163,13 +176,13 @@ public class GameController : MonoBehaviour
     {
         //float newBaconLocation = 0.0f;
         Vector3 newBaconLocation = Vector3.zero;
-        int baconSpawnerCount = baconSpawner.Length;
+        int baconSpawnerCount = baconSpawnerArray.Length;
 
         for(int i = 0; i < baconSpawnerCount; i++)
         {
-            if (baconSpawner[i].occupiedSpawnPoint)
+            if (baconSpawnerArray[i].occupiedSpawnPoint)
             {
-                return baconSpawner[i].transform.position;
+                return baconSpawnerArray[i].transform.position;
             }
         }
         return newBaconLocation;
@@ -205,15 +218,15 @@ public class GameController : MonoBehaviour
         }
 
         //  Reset all Bacon Spawners
-        int baconSpawnerCount = baconSpawner.Length;
+        int baconSpawnerCount = baconSpawnerArray.Length;
         for (int i = 0; i < baconSpawnerCount; i++)
         {
-            if (baconSpawner[i].occupiedSpawnPoint)
+            if (baconSpawnerArray[i].occupiedSpawnPoint)
             {
-                baconSpawner[i].occupiedSpawnPoint = false;
+                baconSpawnerArray[i].occupiedSpawnPoint = false;
             }
 
-            baconSpawner[i].resetBaconTimer();
+            baconSpawnerArray[i].resetBaconTimer();
         }
 
         //  Reset strip count, score, and fails
