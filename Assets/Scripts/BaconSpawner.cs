@@ -69,7 +69,7 @@ public class BaconSpawner : MonoBehaviour {
     /// Generate a random piece of bacon to fill the correct array position
     /// </summary>
     /// <param name="i"></param>
-    Bacon GenerateBacon(int i)
+    public Bacon GenerateBacon()
     {
         int lastElement = nextBaconPiece.Length - 1;
         Bacon newBacon = Instantiate(nextBaconPiece[lastElement]);

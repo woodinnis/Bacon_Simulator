@@ -13,26 +13,31 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public int failCount = 0;
 
-    public GameObject nextPieceBox;
-    public GameObject finishedPieces;
+    // Variables for bacon and spawning bacon
+    [HideInInspector]
+    public int baconCount;
     [SerializeField]
-    private BoxCollider2D finishedPiecesCollider;
+    private BaconSpawner baconSpawner;
+    //[SerializeField]
+    //private NextPiece nextPieceBox;
+    public SpawnPoint[] SpawnPoints;
+    [SerializeField]
+    private Vector2[] SpawnPointVectors;
+    [SerializeField]
+    private Bacon[] allBacons;
 
     public Text scoreField;
     public Text failField;
     public Text winLoseField;
 
-    // Variables for bacon and spawning bacon
-    [HideInInspector]
-    public int baconCount;
-    [SerializeField]
-    private BaconSpawner[] baconSpawnerArray;
-    [SerializeField]
-    private Bacon[] allBacons;
-
     // UI variables
     public Button resetButton;
     public Button quitButton;
+
+    public GameObject finishedPieces;
+    [SerializeField]
+    private BoxCollider2D finishedPiecesCollider;
+
 
     // These values are for a feature that is not yet implemented
     #region
@@ -44,7 +49,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-//        SetResetButtonState(false);
+        //SetResetButtonState(false);
     }
 
     // Use this for initialization
@@ -53,40 +58,23 @@ public class GameController : MonoBehaviour
         //  Set standard time scale
         Time.timeScale = 1;
 
-        // Find and assign the bacon spawner 
-        baconSpawnerArray = FindObjectsOfType<BaconSpawner>();
+        // Fill array with spawn point locations
+        for(int i = 0; i < SpawnPoints.Length; i++)
+        {
+            SpawnPointVectors[i] = SpawnPoints[i].transform.position;
+        }
 
         // Find collider on the finished pieces field
         finishedPiecesCollider = finishedPieces.GetComponent<BoxCollider2D>();
-
-        // Count the number of spawners in the scene
-        int baconSpawnerCount = baconSpawnerArray.Length;
-
-        //  Load up the bacon
-        if (!FindObjectOfType<Bacon>())
-        {
-            for (int i = 0; i < baconSpawnerCount; i++)
-            {
-                baconSpawnerArray[i].respawnBacon(baconSpawnerArray[i].transform.position);
-            }
-        }
+        RespawnBacon();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Test for instance of Object.Bacon, and load array
-        if (FindObjectOfType<Bacon>())
-        {
-            allBacons = FindObjectsOfType(typeof(Bacon)) as Bacon[];
-        }
-
+        
+        // Check the finished pieces box
         FinishedPiecesBoxCheck(allBacons);
-
-        foreach(Bacon bacon in allBacons)
-        {
-            RespawnBacon(bacon);
-        }
 
         // Update displayed score
         scoreField.text = score.ToString();
@@ -157,26 +145,11 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void RespawnBacon(Bacon bacon)
+    private void RespawnBacon()//Bacon bacon)
     {
-
-        BoxCollider2D nextPieceBoxCollider2D = nextPieceBox.GetComponent<BoxCollider2D>();
-
-        BoxCollider2D baconBoxCollider2D = bacon.GetComponent<BoxCollider2D>();
-
-        // Repeat for each bacon spawner in the scene
-        foreach (BaconSpawner baconSpawner in baconSpawnerArray)
-        {
-        // Obtain positions
-        Vector2 baconSpawnerV2 = baconSpawner.transform.position;
-
-            // Check for overlap between spawners and any active bacon in the scene
-            if (!bacon.GetComponent<BoxCollider2D>().OverlapPoint(baconSpawnerV2))
-                {
-
-                    baconSpawner.respawnBacon(baconSpawner.transform.position);
-                }
-        }
+        
+        Bacon nextBaconPiece = baconSpawner.GenerateBacon();
+        nextBaconPiece.transform.position = SpawnPointVectors[0];
     }
 
     // Check the current number of bacon strips on screen and return a T/F
