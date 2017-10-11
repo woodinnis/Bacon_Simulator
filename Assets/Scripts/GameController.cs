@@ -70,7 +70,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < SpawnPoints.Length; i++)
         {
             RespawnBacon(i);
-            SpawnPoints[i].occupied = true;
+            //SpawnPoints[i].occupied = true;
         }
 
         // Find collider on the finished pieces field

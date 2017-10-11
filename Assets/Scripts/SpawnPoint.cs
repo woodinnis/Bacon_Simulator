@@ -2,27 +2,29 @@
 using System.Collections;
 
 public class SpawnPoint : MonoBehaviour {
-
-    private Bacon[] BaconInScene;
-
-    void Update()
-    {
-        BaconInScene = FindObjectsOfType<Bacon>();
-
-        // Perform collision check for bacon transform
-        foreach (Bacon bacon in BaconInScene)
-        {
-            if (transform.position.Equals(bacon.transform.position))
-            {
-                //Debug.Log("I'm full here! " + bacon.transform.position);
-                Debug.Log("I'm here! " + bacon.transform.position);
-            }
-        }
-    }
+    
     public float offset
     { get; set; }
     public bool occupied
     { get; set; }
     public Vector3 position
     { get; set; }
+
+    // Check for a piece currently present on the sawn point
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Bacon")
+            // Mark the spawn point as occupied
+            occupied = true;
+    }
+
+    // Check for a piece leaving the spawn point
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Bacon")
+        {
+            // Mark the spawn point unoccupied
+            occupied = false;
+        }
+    }
 }
