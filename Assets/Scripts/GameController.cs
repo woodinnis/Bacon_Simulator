@@ -96,18 +96,33 @@ public class GameController : MonoBehaviour
         //    }
         //}
 
+        // Find all bacons currently in the scene
+        Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
+
         #region // Causes infinite pieces to spawn
         // Fill spawn points with new pieces of bacon
         for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
         {
             // Check if a spawn point is occupied
-            if (SpawnPoints[SpawnPointIterator].occupied)
+            if (!SpawnPoints[SpawnPointIterator].occupied)
             {
                 // Spawn a piece of bacon and mark the point as occupied
                 RespawnBacon(SpawnPointIterator);
                 //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
             }
+
+            //// Check the transform of the Spawn Point against each BaconInScene for a transform.position collision
+            //foreach (Bacon bacon in baconsInScene)
+            //{
+            //    if (!(SpawnPoints[SpawnPointIterator].transform.position.Equals(bacon.transform.position)))
+            //    {
+            //        //Debug.Log("I'm full here! " + bacon.transform.position);
+            //        Debug.Log("I'm empty here! " + bacon.transform.position);
+            //    }
+            //}
+
         }
+
         #endregion
 
         //// Find all bacons currently in the scene
