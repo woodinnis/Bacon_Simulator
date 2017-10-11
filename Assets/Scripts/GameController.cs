@@ -88,14 +88,6 @@ public class GameController : MonoBehaviour
         // Update displayed score
         scoreField.text = score.ToString();
 
-        //foreach(SpawnPoint SpawnPointInScene in SpawnPoints)
-        //{
-        //    if (!SpawnPointInScene.occupied)
-        //    {
-        //        Debug.Log("Spawn Point " + SpawnPointInScene.transform.position);
-        //    }
-        //}
-
         // Find all bacons currently in the scene
         Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
 
@@ -110,50 +102,9 @@ public class GameController : MonoBehaviour
                 RespawnBacon(SpawnPointIterator);
                 //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
             }
-
-            //// Check the transform of the Spawn Point against each BaconInScene for a transform.position collision
-            //foreach (Bacon bacon in baconsInScene)
-            //{
-            //    if (!(SpawnPoints[SpawnPointIterator].transform.position.Equals(bacon.transform.position)))
-            //    {
-            //        //Debug.Log("I'm full here! " + bacon.transform.position);
-            //        Debug.Log("I'm empty here! " + bacon.transform.position);
-            //    }
-            //}
-
         }
 
         #endregion
-
-        //// Find all bacons currently in the scene
-        //Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
-
-        //// Check the spawn point against all bacon in the scene
-        //for (int BaconInSceneIterator = 0; BaconInSceneIterator < baconsInScene.Length; BaconInSceneIterator++)
-        //{
-        //    //Debug.Log("Bacon In Scene " + BaconInSceneIterator + " : " + baconsInScene[BaconInSceneIterator].transform.position);
-
-        //    //If no spawn point currently has a piece of bacon on it, mark it an unoccupied
-        //    Vector2 SpawnPointTestVector = SpawnPoints[SpawnPointIterator].transform.position;
-        //    Vector2 BaconInSceneTestVector = baconsInScene[BaconInSceneIterator].transform.position;
-        //    //if (!SpawnPoints[SpawnPointIterator].transform.position.Equals(baconsInScene[BaconInSceneIterator].transform.position))
-        //    if (SpawnPointTestVector.Equals(BaconInSceneTestVector))
-        //    {
-        //        if (!SpawnPoints[SpawnPointIterator].occupied)
-        //            Debug.Log("Bingo!");
-        //        //Debug.Log("Bacon In Scene " + BaconInSceneIterator + " : " + baconsInScene[BaconInSceneIterator].transform.position);
-        //    }
-        //    else
-        //    {
-        //        if (SpawnPoints[SpawnPointIterator].occupied)
-        //            Debug.Log("Bongo!");
-        //    }
-        //    //    if (!SpawnPointVectors[i].Equals(allBacons[x].transform.position))
-        //    //    {
-        //    //        SpawnPoints[i].occupied = false;
-        //    //    }
-        //}
-        //}
 
         // Count the number of pieces of bacon in the scene
         baconCount = FindObjectsOfType<Bacon>().Length;
