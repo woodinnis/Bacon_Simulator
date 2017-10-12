@@ -13,7 +13,8 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public int failCount = 0;
     [SerializeField]
-    Timer NextPieceTimer;
+    private Timer NextPieceTimer;
+    public float TimeUntilNextPiece = 0.0f;
 
     #region // Variables for bacon and spawning bacon
     [HideInInspector]
@@ -181,13 +182,26 @@ public class GameController : MonoBehaviour
     /// <param name="SpawnPointIndex"></param>
     private void RespawnBacon(int SpawnPointIndex)
     {
-        
-        // Spawn a new piece and place it at the spawn point
-        Bacon nextBaconPiece = baconSpawner.GenerateBacon();
-        nextBaconPiece.transform.position = SpawnPointVectors[SpawnPointIndex];
+        // Start the countdown timer
+        if(NextPieceTimer.isPaused)
+            NextPieceTimer.isPaused = false;
 
-        // Mark this spawn point as occupied
-        SpawnPoints[SpawnPointIndex].occupied = true;
+        // Set the countdown timer's target time
+        NextPieceTimer.targetTime = TimeUntilNextPiece;
+
+        // When the timer ends - timerEnded() check
+        if (NextPieceTimer.timerEnded())
+        {
+            // Pause the timer
+            NextPieceTimer.isPaused = true;
+
+            // Spawn a new piece and place it at the spawn point
+            Bacon nextBaconPiece = baconSpawner.GenerateBacon();
+            nextBaconPiece.transform.position = SpawnPointVectors[SpawnPointIndex];
+
+            // Mark this spawn point as occupied
+            SpawnPoints[SpawnPointIndex].occupied = true;
+        }
     }
 
     // Check the current number of bacon strips on screen and return a T/F
