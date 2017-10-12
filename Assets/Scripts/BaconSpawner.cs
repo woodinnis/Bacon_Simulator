@@ -71,9 +71,19 @@ public class BaconSpawner : MonoBehaviour {
     /// <param name="i"></param>
     public Bacon GenerateBacon()
     {
+        // Set the position in the array to pull from and select that piece
         int lastElement = nextBaconPiece.Length - 1;
         Bacon newBacon = Instantiate(nextBaconPiece[lastElement]);
 
+        // Set the array position to empty
+        Debug.Log("Last Element = " + nextBaconPiece[lastElement]);
+        nextBaconPiece[lastElement] = null;
+        Debug.Log("Last Element = " + nextBaconPiece[lastElement]);
+
+        // Refill the position
+        FillBaconArray();
+
+        // Return the piece
         return newBacon;
     }
 
@@ -92,7 +102,6 @@ public class BaconSpawner : MonoBehaviour {
     // Fill the next bacon piece array
     void FillBaconArray()
     {
-
         // Fill the Next Piece array
         for (int i = 0; i < nextBaconPieceCount; i++)
         {
