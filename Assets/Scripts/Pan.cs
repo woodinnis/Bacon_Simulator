@@ -20,7 +20,7 @@ public class Pan : MonoBehaviour
 
         //text = FindObjectOfType<Text>();
 
-        DefaultV3 = Vector3.zero;
+        //DefaultV3 = Vector3.zero;
 
         DebugCurrentPanOffset();
     }
@@ -65,7 +65,7 @@ public class Pan : MonoBehaviour
 
         xOffset = 0f;
         yOffset = 0f;
-        DebugCurrentPanOffset();
+        //DebugCurrentPanOffset();
     }
 
     // Move the pan with the mouse
@@ -91,8 +91,8 @@ public class Pan : MonoBehaviour
     }
     private void DebugCurrentPanOffset()
     {
-        Debug.Log("Default: " + DefaultV3.ToString());
-        Debug.Log("X Offset: " + xOffset);
-        Debug.Log("Y Offset: " + yOffset);
+        //Debug.Log("Default: " + DefaultV3.ToString());
+        //Debug.Log("X Offset: " + xOffset);
+        //Debug.Log("Y Offset: " + yOffset);
     }
 }

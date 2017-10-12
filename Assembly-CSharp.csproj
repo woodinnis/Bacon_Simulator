@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\HeatZoneCollider.cs" />
+     <Compile Include="Assets\NextPiece.cs" />
      <Compile Include="Assets\Scripts\Bacon.cs" />
      <Compile Include="Assets\Scripts\BaconSpawner.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />

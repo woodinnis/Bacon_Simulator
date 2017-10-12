@@ -15,15 +15,18 @@ public class Timer : MonoBehaviour {
 	void Update () {
         if(!isPaused)
             currentTime += Time.deltaTime;
-        
-        if(currentTime >= targetTime)
-        {
-            timerEnded();
-        }
 	}
 
     public bool timerEnded()
     {
-        return true;
+        // If the timer has reached its target time
+        if (currentTime >= targetTime)
+        {
+            // Reset time timer and return true
+            currentTime = 0.0f;
+            return true;
+        }
+        else
+            return false;
     }
 }

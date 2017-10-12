@@ -4,71 +4,18 @@ using System.Collections;
 public class BaconSpawner : MonoBehaviour {
 
     public Bacon[] baconTypes;
-    public int nextBaconPieceCount = 0;
-    public Bacon[] nextBaconPiece;
-    public int nextBaconCountdown = 0;
-
-    public bool occupiedSpawnPoint = false;
-
-    private bool beginRespawn = false;
-    private Vector3 spawnPosition;
-    private float timerCount = 0.0f;
-
-    void Start ()
-    {
-        // Set the spawn position to the current transform of the BaconSpawner
-        spawnPosition = transform.position;
-
-        // Fill the Next Piece array
-        for (int i = 0; i < nextBaconPieceCount; i++)
-        {
-            Debug.Log("Next Bacon Piece " + i);
-            GenerateBacon(i);
-        }
-    }
-
-    void Update()
-    {
-        if (beginRespawn)
-        {
-
-            timerCount += Time.deltaTime;
-
-            if (timerCount > nextBaconCountdown)
-            {
-                beginRespawn = false;
-                MakinBacon(spawnPosition);
-
-                resetBaconTimer();
-            }
-        }
-    }
 
     /// <summary>
-    /// Reset the respawn timer
+    /// Return a randomly generate piece of Bacon from the predefine BaconTypes array
     /// </summary>
-    public void resetBaconTimer()
+    /// <returns></returns>
+    public Bacon GenerateBacon()
     {
-        timerCount = 0.0f;
-    }
+        // Generate a new piece of bacon using a random number
+        Bacon newBacon = Instantiate(baconTypes[GetRandomInt()]);
 
-    /// <summary>
-    /// Reset the spawn position, and mark the respawn functionality as true
-    /// </summary>
-    /// <param name="position"></param>
-    public void respawnBacon(Vector3 position)
-    {
-        beginRespawn = true;
-        spawnPosition = position;
-    }
-
-    /// <summary>
-    /// Generate a random piece of bacon to fill the correct array position
-    /// </summary>
-    /// <param name="i"></param>
-    private void GenerateBacon(int i)
-    {
-        nextBaconPiece[i] = baconTypes[GetRandomInt()];
+        // Return the piece
+        return newBacon;
     }
 
     /// <summary>
@@ -83,34 +30,78 @@ public class BaconSpawner : MonoBehaviour {
         return index;
     }
 
-    // Spawn a new strip of bacon
-    private void MakinBacon(Vector3 position)
-    {
-        // Instantiate the piece of bacon currently in the last index of Next Piece array
-        int lastElement = nextBaconPiece.Length - 1;
-        Instantiate(nextBaconPiece[lastElement], position, Quaternion.identity);
-
-        // Increase the total count
-        GameController gc = FindObjectOfType<GameController>();
-        gc.baconCount++;
-        occupiedSpawnPoint = true;
-
-        // Shift the array up, and generate a new piece in the Next Piece array
-        //ShiftBaconArrayUp();
-        //GenerateBacon(0);
-    }
-
-
-    //// Shift all Next Piece array elements up by 1 index
-    //void ShiftBaconArrayUp()
-    //{
-    //    int size = nextBaconPiece.Length - 1;
-
-    //    for (int i = size; i > 0; i--)
-    //    {
-    //        nextBaconPiece[i] = nextBaconPiece[i - 1];
-    //    }
-    //}
-
-
 }
+
+#region // Obsolete BaconSpawner code pre-SpawnPoint updates, retained for reference
+
+/// <summary>
+/// Reset the respawn timer
+/// </summary>
+//public void resetBaconTimer()
+//{
+//    timerCount = 0.0f;
+//}
+/// <summary>
+/// Clear the last element of the Next piece array, and shift all remeining elements up
+/// to take its place
+/// </summary>
+/// <param name="lastElement"></param>
+//private void ShiftNextPieceArray(int lastElement)
+//{
+//    int ArrayLength = nextBaconPiece.Length - 1;
+
+//    Debug.Log("Array Length: " + ArrayLength);
+
+//    Debug.Log("Last Element = " + nextBaconPiece[lastElement]);
+//    nextBaconPiece[lastElement] = null;
+
+//    // Shift the elements of the array up
+//    for (int x = ArrayLength; x > 0; x--)
+//    {
+//        Bacon y = nextBaconPiece[x];
+//        Debug.Log("Next Bacon Piece " + x + ": " + y);
+//        //nextBaconPiece[x + 1] = y;
+//    }
+
+//    Debug.Log("Last Element = " + nextBaconPiece[lastElement]);
+//}
+
+/// <summary>
+/// Reset the spawn position, and mark the respawn functionality as true
+/// </summary>
+/// <param name="position"></param>
+//public void respawnBacon(Vector3 position)
+//{
+//    beginRespawn = true;
+//    spawnPosition = position;
+//}
+
+//// Fill the next bacon piece array
+//    void FillBaconArray()
+//    {
+//        // Fill the Next Piece array
+//        for (int i = 0; i < nextBaconPieceCount; i++)
+//        {
+//            // If the array position to be filled is not the zeroth position
+//            if (i > 0)
+//            {
+//                // If a position needs to be filled begin filling it
+//                if (!nextBaconPiece[i])
+//                {
+//                    // Generate new pieces until no matched between i and i-1 exist
+//                    do
+//                    {
+//                        nextBaconPiece[i] = baconTypes[GetRandomInt()];
+//                    }
+//                    while (nextBaconPiece[i] == nextBaconPiece[i - 1]);
+//                }
+//            }
+//            // Fill the array position [0] with a new piece of bacon
+//            else
+//            {
+//                nextBaconPiece[i] = baconTypes[GetRandomInt()];
+//            }
+//        }
+//    }
+
+#endregion
