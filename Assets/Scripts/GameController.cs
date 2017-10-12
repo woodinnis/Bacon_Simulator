@@ -175,15 +175,15 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void RespawnBacon(int i)//Bacon bacon)
+    private void RespawnBacon(int SpawnPointIndex)//Bacon bacon)
     {
         
         // Spawn a new piece and place it at the spawn point
         Bacon nextBaconPiece = baconSpawner.GenerateBacon();
-        nextBaconPiece.transform.position = SpawnPointVectors[i];
+        nextBaconPiece.transform.position = SpawnPointVectors[SpawnPointIndex];
 
         // Mark this spawn point as occupied
-        SpawnPoints[i].occupied = true;
+        SpawnPoints[SpawnPointIndex].occupied = true;
     }
 
     // Check the current number of bacon strips on screen and return a T/F
