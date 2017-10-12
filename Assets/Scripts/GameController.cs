@@ -12,8 +12,10 @@ public class GameController : MonoBehaviour
     public int score = 0;
     [HideInInspector]
     public int failCount = 0;
+    [SerializeField]
+    Timer NextPieceTimer;
 
-    // Variables for bacon and spawning bacon
+    #region // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
     [SerializeField]
@@ -25,6 +27,7 @@ public class GameController : MonoBehaviour
     private Vector2[] SpawnPointVectors;
     [SerializeField]
     private Bacon[] allBacons;
+    #endregion
 
     #region // UI variables
     // Score, win, fail
@@ -41,8 +44,8 @@ public class GameController : MonoBehaviour
     private BoxCollider2D finishedPiecesCollider;
     #endregion
 
-    // These values are for a feature that is not yet implemented
-    #region
+
+    #region // These values are for a feature that is not yet implemented
     [HideInInspector]
     public float panOffsetCheck = 0.0f;
     [HideInInspector]
@@ -91,8 +94,7 @@ public class GameController : MonoBehaviour
         // Find all bacons currently in the scene
         Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
 
-        #region // Causes infinite pieces to spawn
-        // Fill spawn points with new pieces of bacon
+        #region // Fill spawn points with new pieces of bacon
         for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
         {
             // Check if a spawn point is occupied
@@ -103,7 +105,6 @@ public class GameController : MonoBehaviour
                 //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
             }
         }
-
         #endregion
 
         // Count the number of pieces of bacon in the scene
@@ -169,13 +170,16 @@ public class GameController : MonoBehaviour
                         Debug.Log("Bacon Burned At: " + bacon.transform.position);
                     }
                 }
-
-                //RespawnBacon(bacon);
             }
         }
     }
 
-    private void RespawnBacon(int SpawnPointIndex)//Bacon bacon)
+    /// <summary>
+    /// Spawn a new piece of bacon at the spawn point referenced by the SpawnPointIndex variable
+    /// Set the SpawnPoint at the SpawnPointIndex to occupied
+    /// </summary>
+    /// <param name="SpawnPointIndex"></param>
+    private void RespawnBacon(int SpawnPointIndex)
     {
         
         // Spawn a new piece and place it at the spawn point
@@ -195,6 +199,14 @@ public class GameController : MonoBehaviour
             return false;
     }
 
+    // Seriously, do you need this explained?
+    void QuitGame()
+    {
+        Application.Quit();
+    }
+}   
+
+#region // Old code for reference
     //float NewBaconLocation()
     //Vector3 NewBaconLocation()
     //{
@@ -256,12 +268,4 @@ public class GameController : MonoBehaviour
     //    score = 0;
     //    failCount = 0;
     //}
-
-    // Seriously, do you need this explained?
-    void QuitGame()
-    {
-        Application.Quit();
-    }
-
-
-}
+    #endregion

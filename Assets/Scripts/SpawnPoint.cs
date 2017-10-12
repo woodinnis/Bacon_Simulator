@@ -10,6 +10,11 @@ public class SpawnPoint : MonoBehaviour {
     public Vector3 position
     { get; set; }
 
+
+    // This handles the SpawnPoints and toggling the occupied bool.
+    // Multiple instances will still occur if a piece is dragged over an occupied spawn point
+    // A code solution has not been fully worked out yet, but this suffices
+
     // Check for a piece currently present on the sawn point
     void OnTriggerStay2D(Collider2D other)
     {
