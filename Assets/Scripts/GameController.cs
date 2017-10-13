@@ -85,15 +85,16 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        // Find all bacons currently in the scene
+        Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
+      
         // Check the finished pieces box
-        FinishedPiecesBoxCheck(allBacons);
+        FinishedPiecesBoxCheck(baconsInScene);
 
         // Update displayed score
         scoreField.text = score.ToString();
 
-        // Find all bacons currently in the scene
-        Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
 
         #region // Fill spawn points with new pieces of bacon
         for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
