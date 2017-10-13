@@ -94,7 +94,7 @@ public class GameController : MonoBehaviour
     {
 
         // Update Level Timer
-        LevelTimerText.text = GameLevelTimer.currentTime.ToString();
+        LevelTimerText.text = Mathf.Ceil(GameLevelTimer.currentTime).ToString();// ((int)GameLevelTimer.currentTime).ToString();
 
         // Find all bacons currently in the scene
         Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
