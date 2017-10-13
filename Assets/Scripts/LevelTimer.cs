@@ -25,8 +25,6 @@ public class LevelTimer : MonoBehaviour {
     {
         if (!isPaused)
             currentTime -= Time.deltaTime;
-
-        Debug.Log("Current Time: " + currentTime);
     }
 
     public bool timerEnded()
@@ -35,7 +33,7 @@ public class LevelTimer : MonoBehaviour {
         if (currentTime <= targetTime)
         {
             // Reset time timer and return true
-            currentTime = 0.0f;
+            isPaused = true;
             return true;
         }
         else
