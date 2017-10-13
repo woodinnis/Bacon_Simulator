@@ -16,6 +16,11 @@ public class GameController : MonoBehaviour
     private Timer NextPieceTimer;
     public float TimeUntilNextPiece = 0.0f;
 
+    [SerializeField]
+    private LevelTimer GameLevelTimer;
+    public float LevelTime;
+    
+
     #region // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
@@ -34,6 +39,8 @@ public class GameController : MonoBehaviour
     public Text failField;
     public Text winLoseField;
 
+    public Text LevelTimerText;
+
     // Buttons
     public Button resetButton;
     public Button quitButton;
@@ -42,7 +49,6 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private BoxCollider2D finishedPiecesCollider;
     #endregion
-
 
     #region // These values are for a feature that is not yet implemented
     [HideInInspector]
@@ -53,14 +59,18 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        //SetResetButtonState(false);
+        //  Set standard time scale
+        Time.timeScale = 1;
+
+
+        // Set Level Timer
+        GameLevelTimer.LevelTime = LevelTime;
+        GameLevelTimer.isPaused = true;
     }
 
     // Use this for initialization
     void Start()
     {
-        //  Set standard time scale
-        Time.timeScale = 1;
 
         // Fill array with spawn point locations
         for(int i = 0; i < SpawnPoints.Length; i++)
@@ -77,7 +87,6 @@ public class GameController : MonoBehaviour
 
         // Find collider on the finished pieces field
         finishedPiecesCollider = finishedPieces.GetComponent<BoxCollider2D>();
-        
     }
 
     // Update is called once per frame
@@ -93,18 +102,33 @@ public class GameController : MonoBehaviour
         // Update displayed score
         scoreField.text = score.ToString();
 
-        #region // Fill spawn points with new pieces of bacon
-        for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
+        // Update Level Timer
+        if (!GameLevelTimer.timerEnded())
         {
-            // Check if a spawn point is occupied
-            if (!SpawnPoints[SpawnPointIterator].occupied)
+            LevelTimerText.text = Mathf.FloorToInt(GameLevelTimer.currentTime).ToString();// ((int)GameLevelTimer.currentTime).ToString();
+
+            #region // Fill spawn points with new pieces of bacon
+            for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
             {
-                // Spawn a piece of bacon and mark the point as occupied
-                RespawnBacon(SpawnPointIterator);
-                //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
+                // Check if a spawn point is occupied
+                if (!SpawnPoints[SpawnPointIterator].occupied)
+                {
+                    // Spawn a piece of bacon and mark the point as occupied
+                    RespawnBacon(SpawnPointIterator);
+                    //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
+                }
+            }
+            #endregion
+        }
+        else
+        {
+            // Disable all bacon colliders and timers in the scene to prevent further movement and burning
+            foreach(Bacon bacon in baconsInScene)
+            {
+                bacon.GetComponent<BoxCollider2D>().enabled = false;
+                bacon.timer.enabled = false;
             }
         }
-        #endregion
 
         // Proof of concept Update code
         #region
@@ -134,6 +158,13 @@ public class GameController : MonoBehaviour
         // Check for a button press on the Quit button
         //        quitButton.onClick.AddListener(QuitGame);
         #endregion
+
+        // When Mouse Button 0 (LMB) is pressed unpause the Level Timer
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameLevelTimer.isPaused = false;
+        }
+
     }
 
     // Check for a collision between any piece of bacon and the Finished Pieces box
