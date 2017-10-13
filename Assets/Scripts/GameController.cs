@@ -59,14 +59,18 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        //SetResetButtonState(false);
+        //  Set standard time scale
+        Time.timeScale = 1;
+
+
+        // Set Level Timer
+        GameLevelTimer.LevelTime = LevelTime;
+        GameLevelTimer.isPaused = true;
     }
 
     // Use this for initialization
     void Start()
     {
-        //  Set standard time scale
-        Time.timeScale = 1;
 
         // Fill array with spawn point locations
         for(int i = 0; i < SpawnPoints.Length; i++)
@@ -83,10 +87,6 @@ public class GameController : MonoBehaviour
 
         // Find collider on the finished pieces field
         finishedPiecesCollider = finishedPieces.GetComponent<BoxCollider2D>();
-
-        // Set Level Timer
-        GameLevelTimer.LevelTime = LevelTime;
-        GameLevelTimer.isPaused = true;
     }
 
     // Update is called once per frame
@@ -150,6 +150,7 @@ public class GameController : MonoBehaviour
         //        quitButton.onClick.AddListener(QuitGame);
         #endregion
 
+        // When Mouse Button 0 (LMB) is pressed unpause the Level Timer
         if (Input.GetMouseButtonDown(0))
         {
             GameLevelTimer.isPaused = false;
