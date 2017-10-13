@@ -86,7 +86,7 @@ public class GameController : MonoBehaviour
 
         // Set Level Timer
         GameLevelTimer.LevelTime = LevelTime;
-        GameLevelTimer.isPaused = false;
+        GameLevelTimer.isPaused = true;
     }
 
     // Update is called once per frame
@@ -120,7 +120,7 @@ public class GameController : MonoBehaviour
             }
             #endregion
         }
-        
+
         // Proof of concept Update code
         #region
         //failField.text = failCount.ToString();
@@ -149,6 +149,12 @@ public class GameController : MonoBehaviour
         // Check for a button press on the Quit button
         //        quitButton.onClick.AddListener(QuitGame);
         #endregion
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameLevelTimer.isPaused = false;
+        }
+
     }
 
     // Check for a collision between any piece of bacon and the Finished Pieces box

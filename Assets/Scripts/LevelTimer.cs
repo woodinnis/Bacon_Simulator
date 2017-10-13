@@ -17,7 +17,7 @@ public class LevelTimer : MonoBehaviour {
     {
         // Start the current time at the Level Time for this timer
         currentTime = LevelTime;
-        isPaused = false;
+        
     }
 
     // Update is called once per frame
