@@ -43,7 +43,6 @@ public class GameController : MonoBehaviour
     private BoxCollider2D finishedPiecesCollider;
     #endregion
 
-
     #region // These values are for a feature that is not yet implemented
     [HideInInspector]
     public float panOffsetCheck = 0.0f;
