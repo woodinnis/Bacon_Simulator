@@ -120,6 +120,15 @@ public class GameController : MonoBehaviour
             }
             #endregion
         }
+        else
+        {
+            // Disable all bacon colliders and timers in the scene to prevent further movement and burning
+            foreach(Bacon bacon in baconsInScene)
+            {
+                bacon.GetComponent<BoxCollider2D>().enabled = false;
+                bacon.timer.enabled = false;
+            }
+        }
 
         // Proof of concept Update code
         #region
