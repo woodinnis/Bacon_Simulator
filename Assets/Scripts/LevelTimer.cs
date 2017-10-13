@@ -5,7 +5,8 @@ public class LevelTimer : MonoBehaviour {
 
 
     public float LevelTime;
-    private float currentTime;
+    [HideInInspector]
+    public float currentTime;
 
     private float targetTime = 0.0f;
 

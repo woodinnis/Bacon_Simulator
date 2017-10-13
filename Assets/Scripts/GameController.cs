@@ -16,6 +16,11 @@ public class GameController : MonoBehaviour
     private Timer NextPieceTimer;
     public float TimeUntilNextPiece = 0.0f;
 
+    [SerializeField]
+    private LevelTimer GameLevelTimer;
+    public float LevelTime;
+    
+
     #region // Variables for bacon and spawning bacon
     [HideInInspector]
     public int baconCount;
@@ -33,6 +38,8 @@ public class GameController : MonoBehaviour
     public Text scoreField;
     public Text failField;
     public Text winLoseField;
+
+    public Text LevelTimerText;
 
     // Buttons
     public Button resetButton;
@@ -76,12 +83,18 @@ public class GameController : MonoBehaviour
 
         // Find collider on the finished pieces field
         finishedPiecesCollider = finishedPieces.GetComponent<BoxCollider2D>();
-        
+
+        // Set Level Timer
+        GameLevelTimer.LevelTime = LevelTime;
+        GameLevelTimer.isPaused = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        // Update Level Timer
+        LevelTimerText.text = GameLevelTimer.currentTime.ToString();
 
         // Find all bacons currently in the scene
         Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
