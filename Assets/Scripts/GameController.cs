@@ -93,10 +93,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
-        // Update Level Timer
-        if(!GameLevelTimer.timerEnded())
-            LevelTimerText.text = Mathf.FloorToInt(GameLevelTimer.currentTime).ToString();// ((int)GameLevelTimer.currentTime).ToString();
-
         // Find all bacons currently in the scene
         Bacon[] baconsInScene = FindObjectsOfType<Bacon>();
       
@@ -106,19 +102,25 @@ public class GameController : MonoBehaviour
         // Update displayed score
         scoreField.text = score.ToString();
 
-        #region // Fill spawn points with new pieces of bacon
-        for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
+        // Update Level Timer
+        if (!GameLevelTimer.timerEnded())
         {
-            // Check if a spawn point is occupied
-            if (!SpawnPoints[SpawnPointIterator].occupied)
-            {
-                // Spawn a piece of bacon and mark the point as occupied
-                RespawnBacon(SpawnPointIterator);
-                //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
-            }
-        }
-        #endregion
+            LevelTimerText.text = Mathf.FloorToInt(GameLevelTimer.currentTime).ToString();// ((int)GameLevelTimer.currentTime).ToString();
 
+            #region // Fill spawn points with new pieces of bacon
+            for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
+            {
+                // Check if a spawn point is occupied
+                if (!SpawnPoints[SpawnPointIterator].occupied)
+                {
+                    // Spawn a piece of bacon and mark the point as occupied
+                    RespawnBacon(SpawnPointIterator);
+                    //Debug.Log("Spawn Point " + SpawnPointIterator + " : " + SpawnPoints[SpawnPointIterator].transform.position);
+                }
+            }
+            #endregion
+        }
+        
         // Proof of concept Update code
         #region
         //failField.text = failCount.ToString();
