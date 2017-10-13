@@ -26,8 +26,6 @@ public class GameController : MonoBehaviour
     public SpawnPoint[] SpawnPoints;
     [SerializeField]
     private Vector2[] SpawnPointVectors;
-    [SerializeField]
-    private Bacon[] allBacons;
     #endregion
 
     #region // UI variables
@@ -95,7 +93,6 @@ public class GameController : MonoBehaviour
         // Update displayed score
         scoreField.text = score.ToString();
 
-
         #region // Fill spawn points with new pieces of bacon
         for (int SpawnPointIterator = 0; SpawnPointIterator < SpawnPoints.Length; SpawnPointIterator++)
         {
@@ -108,9 +105,6 @@ public class GameController : MonoBehaviour
             }
         }
         #endregion
-
-        // Count the number of pieces of bacon in the scene
-        baconCount = FindObjectsOfType<Bacon>().Length;
 
         // Proof of concept Update code
         #region
