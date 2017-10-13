@@ -188,13 +188,14 @@ public class GameController : MonoBehaviour
                     if (bacon.baconState == Bacon.BaconState.baconCooked)
                     {
                         score++;
-                        Debug.Log("Bacon Cooked At: " + bacon.transform.position);
                     }
                     // Deduct from the score for a burnt piece
                     else if (bacon.baconState == Bacon.BaconState.baconBurned)
                     {
-                        score--;
-                        Debug.Log("Bacon Burned At: " + bacon.transform.position);
+                        if (score > 0)
+                        {
+                            score--;
+                        }
                     }
                 }
             }
