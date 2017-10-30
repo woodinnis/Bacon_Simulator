@@ -8,10 +8,11 @@ public class GameController : MonoBehaviour
     public int maxFails = 0;
     public int maxStrips = 0;
 
-    //[HideInInspector]
+    [HideInInspector]
     public int score = 0;
     [HideInInspector]
     public int failCount = 0;
+    
     [SerializeField]
     private Timer NextPieceTimer;
     public float TimeUntilNextPiece = 0.0f;
@@ -36,7 +37,9 @@ public class GameController : MonoBehaviour
     #region // UI variables
     // Score, win, fail
     public Text scoreField;
+    [HideInInspector]
     public Text failField;
+    [HideInInspector]
     public Text winLoseField;
 
     public Text LevelTimerText;
@@ -62,6 +65,9 @@ public class GameController : MonoBehaviour
         //  Set standard time scale
         Time.timeScale = 1;
 
+        // Set Timers
+        //GameLevelTimer = FindObjectOfType<LevelTimer>();
+        //NextPieceTimer = FindObjectOfType<Timer>();
 
         // Set Level Timer
         GameLevelTimer.LevelTime = LevelTime;
