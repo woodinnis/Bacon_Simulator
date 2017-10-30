@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    [HideInInspector]
     public int maxFails = 0;
+    [HideInInspector]
     public int maxStrips = 0;
 
     [HideInInspector]
@@ -44,6 +46,8 @@ public class GameController : MonoBehaviour
 
     public Text LevelTimerText;
 
+    public Text TimesUpText;
+
     // Buttons
     public Button resetButton;
     public Button quitButton;
@@ -72,6 +76,9 @@ public class GameController : MonoBehaviour
         // Set Level Timer
         GameLevelTimer.LevelTime = LevelTime;
         GameLevelTimer.isPaused = true;
+
+        // Disable Times Up Text
+        TimesUpText.GetComponent<Text>().enabled = false;
     }
 
     // Use this for initialization
@@ -134,6 +141,9 @@ public class GameController : MonoBehaviour
                 bacon.GetComponent<BoxCollider2D>().enabled = false;
                 bacon.timer.enabled = false;
             }
+
+            // Display the Times Up Text
+            TimesUpText.GetComponent<Text>().enabled = true;
         }
 
         // Proof of concept Update code
