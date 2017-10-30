@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -141,8 +142,9 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            #region // Disable all Bacon after the timer has ended
             // Disable all bacon colliders and timers in the scene to prevent further movement and burning
-            foreach(Bacon bacon in baconsInScene)
+            foreach (Bacon bacon in baconsInScene)
             {
                 bacon.GetComponent<BoxCollider2D>().enabled = false;
                 bacon.timer.enabled = false;
@@ -161,6 +163,7 @@ public class GameController : MonoBehaviour
             {
                 RetryButton.gameObject.SetActive(true);
             }
+            #endregion
         }
 
         // Proof of concept Update code
@@ -197,6 +200,13 @@ public class GameController : MonoBehaviour
         {
             GameLevelTimer.isPaused = false;
         }
+
+        #region // Check for a mouse press on the Retry Button and reload the level
+        if (RetryButton.isActiveAndEnabled)
+        {
+            RetryButton.onClick.AddListener(ReloadCurrentLevel);
+        }
+        #endregion
 
     }
 
@@ -271,6 +281,14 @@ public class GameController : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    // If the Reset Button is clicked reload the level
+    private void ReloadCurrentLevel()
+    {
+        Scene CurrentScene = SceneManager.GetActiveScene();
+
+        SceneManager.LoadScene(CurrentScene.name);
     }
 
     // Seriously, do you need this explained?
