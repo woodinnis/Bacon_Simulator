@@ -12,8 +12,8 @@ public class GameController : MonoBehaviour
 
     [HideInInspector]
     public int score = 0;
-    [HideInInspector]
-    public int failCount = 0;
+    //[HideInInspector]
+    public int MinimumStripsToWin = 0;
     
     [SerializeField]
     private Timer NextPieceTimer;
@@ -150,6 +150,17 @@ public class GameController : MonoBehaviour
 
             // Display the Times Up Text
             TimesUpText.GetComponent<Text>().enabled = true;
+            
+            // Display Next Level Button if total score is greater than minimum to win
+            if(score >= MinimumStripsToWin)
+            {
+                NextLevelButton.gameObject.SetActive(true);
+            }
+            // Display Retry Button is total score is less than minimum needed to win
+            else if(score < MinimumStripsToWin)
+            {
+                RetryButton.gameObject.SetActive(true);
+            }
         }
 
         // Proof of concept Update code
