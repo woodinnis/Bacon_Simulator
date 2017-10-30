@@ -47,9 +47,11 @@ public class GameController : MonoBehaviour
     public Text LevelTimerText;
 
     public Text TimesUpText;
+    public Button NextLevelButton;
+    public Button RetryButton;
 
     // Buttons
-    public Button resetButton;
+    //public Button resetButton;
     public Button quitButton;
 
     public GameObject finishedPieces;
@@ -79,6 +81,10 @@ public class GameController : MonoBehaviour
 
         // Disable Times Up Text
         TimesUpText.GetComponent<Text>().enabled = false;
+
+        // Disable NextLevel and Retry Buttons
+        NextLevelButton.gameObject.SetActive(false);
+        RetryButton.gameObject.SetActive(false);
     }
 
     // Use this for initialization
