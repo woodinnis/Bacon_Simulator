@@ -208,6 +208,13 @@ public class GameController : MonoBehaviour
         }
         #endregion
 
+
+        #region // Check for mouse press on the Next Level Button and load the next level
+        if (NextLevelButton.isActiveAndEnabled)
+        {
+            NextLevelButton.onClick.AddListener(LoadNextLevel);
+        }
+        #endregion
     }
 
     // Check for a collision between any piece of bacon and the Finished Pieces box
@@ -291,6 +298,14 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(CurrentScene.name);
     }
 
+    // Load the next level
+    private void LoadNextLevel()
+    {
+        Scene CurrentScene = SceneManager.GetActiveScene();
+        
+        // Find next scene
+        // Load next scene
+    }
     // Seriously, do you need this explained?
     void QuitGame()
     {
