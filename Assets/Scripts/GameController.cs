@@ -23,7 +23,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private LevelTimer GameLevelTimer;
     public float LevelTime;
+
     
+    public Scene[] GameLevels;
 
     #region // Variables for bacon and spawning bacon
     [HideInInspector]
@@ -301,9 +303,6 @@ public class GameController : MonoBehaviour
     // Load the next level
     private void LoadNextLevel()
     {
-        Scene CurrentScene = SceneManager.GetActiveScene();
-        
-        // Find next scene
         // Load next scene
     }
     // Seriously, do you need this explained?
