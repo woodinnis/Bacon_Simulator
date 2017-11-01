@@ -24,8 +24,8 @@ public class GameController : MonoBehaviour
     private LevelTimer GameLevelTimer;
     public float LevelTime;
 
-    
-    public Scene[] GameLevels;
+    private LevelManager LevelManager;
+
 
     #region // Variables for bacon and spawning bacon
     [HideInInspector]
@@ -77,6 +77,8 @@ public class GameController : MonoBehaviour
         // Set Timers
         //GameLevelTimer = FindObjectOfType<LevelTimer>();
         //NextPieceTimer = FindObjectOfType<Timer>();
+
+        LevelManager = FindObjectOfType<LevelManager>();
 
         // Set Level Timer
         GameLevelTimer.LevelTime = LevelTime;
@@ -214,7 +216,7 @@ public class GameController : MonoBehaviour
         #region // Check for mouse press on the Next Level Button and load the next level
         if (NextLevelButton.isActiveAndEnabled)
         {
-            NextLevelButton.onClick.AddListener(LoadNextLevel);
+            NextLevelButton.onClick.AddListener(LevelManager.LoadNextLevel);
         }
         #endregion
     }
@@ -303,7 +305,7 @@ public class GameController : MonoBehaviour
     // Load the next level
     private void LoadNextLevel()
     {
-        // Load next scene
+        
     }
     // Seriously, do you need this explained?
     void QuitGame()

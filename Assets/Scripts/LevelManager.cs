@@ -23,9 +23,10 @@ public class LevelManager : MonoBehaviour {
         Debug.Log("Current Scene Name: " + GameLevels[CurrentSceneIndex]);
         
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Load the next level
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(GameLevels[CurrentSceneIndex + 1]);
+    }
 }
