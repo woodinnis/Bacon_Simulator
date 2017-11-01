@@ -10,9 +10,9 @@ public class LevelManager : MonoBehaviour {
     private Scene CurrentScene;
     int CurrentSceneIndex;
 
-	// Use this for initialization
-	void Start () {
-
+    // Use this for initialization
+    void OnEnable()
+    {
         // Get the active scene (Should be the start menu)
         CurrentScene = SceneManager.GetActiveScene();
 
@@ -21,12 +21,24 @@ public class LevelManager : MonoBehaviour {
 
         // Display Current Scene name
         Debug.Log("Current Scene Name: " + GameLevels[CurrentSceneIndex]);
-        
-	}
+        Debug.Log("Next Scene Name: " + GameLevels[CurrentSceneIndex + 1]);
+
+    }
 
     // Load the next level
     public void LoadNextLevel()
     {
-        SceneManager.LoadScene(GameLevels[CurrentSceneIndex + 1]);
+
+        int NextSceneIndex = CurrentSceneIndex + 1;
+
+        if (NextSceneIndex <= GameLevels.Length)
+        {
+            SceneManager.LoadScene(GameLevels[NextSceneIndex], LoadSceneMode.Single);
+        }
+        else
+        {
+            Debug.Log("There is no Scene at this index");
+        }
     }
+
 }

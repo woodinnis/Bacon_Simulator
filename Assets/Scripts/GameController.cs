@@ -302,11 +302,6 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(CurrentScene.name);
     }
 
-    // Load the next level
-    private void LoadNextLevel()
-    {
-        
-    }
     // Seriously, do you need this explained?
     void QuitGame()
     {
