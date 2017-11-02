@@ -45,6 +45,8 @@ public class LevelManager : MonoBehaviour {
         else
         {
             Debug.Log("There is no Scene at this index");
+
+            SceneManager.LoadSceneAsync("scene00",LoadSceneMode.Single);
         }
     }
 
