@@ -48,4 +48,13 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    // If the Reset Button is clicked reload the level
+    public void ReloadCurrentLevel()
+    {
+        Scene CurrentScene = SceneManager.GetActiveScene();
+
+        SceneManager.LoadScene(CurrentScene.name);
+    }
+
+
 }

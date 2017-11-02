@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class NextLevelButton : MonoBehaviour
 {
 
-    private GameController gc;
     private Button NextLvlButton;
     private LevelManager LevelManager;
 

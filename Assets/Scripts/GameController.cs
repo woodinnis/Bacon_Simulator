@@ -206,12 +206,12 @@ public class GameController : MonoBehaviour
             GameLevelTimer.isPaused = false;
         }
 
-        #region // Check for a mouse press on the Retry Button and reload the level
-        if (RetryButton.isActiveAndEnabled)
-        {
-            RetryButton.onClick.AddListener(ReloadCurrentLevel);
-        }
-        #endregion
+        //#region // Check for a mouse press on the Retry Button and reload the level
+        //if (RetryButton.isActiveAndEnabled)
+        //{
+        //    RetryButton.onClick.AddListener(ReloadCurrentLevel);
+        //}
+        //#endregion
 
 
         //#region // Check for mouse press on the Next Level Button and load the next level
@@ -295,13 +295,13 @@ public class GameController : MonoBehaviour
             return false;
     }
 
-    // If the Reset Button is clicked reload the level
-    private void ReloadCurrentLevel()
-    {
-        Scene CurrentScene = SceneManager.GetActiveScene();
+    //// If the Reset Button is clicked reload the level
+    //private void ReloadCurrentLevel()
+    //{
+    //    Scene CurrentScene = SceneManager.GetActiveScene();
 
-        SceneManager.LoadScene(CurrentScene.name);
-    }
+    //    SceneManager.LoadScene(CurrentScene.name);
+    //}
 
     // Seriously, do you need this explained?
     void QuitGame()
