@@ -23,7 +23,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private LevelTimer GameLevelTimer;
     public float LevelTime;
-    
+
+    private LevelManager LevelManager;
+
 
     #region // Variables for bacon and spawning bacon
     [HideInInspector]
@@ -69,12 +71,15 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        
         //  Set standard time scale
         Time.timeScale = 1;
 
         // Set Timers
         //GameLevelTimer = FindObjectOfType<LevelTimer>();
         //NextPieceTimer = FindObjectOfType<Timer>();
+
+        LevelManager = FindObjectOfType<LevelManager>();
 
         // Set Level Timer
         GameLevelTimer.LevelTime = LevelTime;
@@ -201,20 +206,6 @@ public class GameController : MonoBehaviour
             GameLevelTimer.isPaused = false;
         }
 
-        #region // Check for a mouse press on the Retry Button and reload the level
-        if (RetryButton.isActiveAndEnabled)
-        {
-            RetryButton.onClick.AddListener(ReloadCurrentLevel);
-        }
-        #endregion
-
-
-        #region // Check for mouse press on the Next Level Button and load the next level
-        if (NextLevelButton.isActiveAndEnabled)
-        {
-            NextLevelButton.onClick.AddListener(LoadNextLevel);
-        }
-        #endregion
     }
 
     // Check for a collision between any piece of bacon and the Finished Pieces box
@@ -290,22 +281,6 @@ public class GameController : MonoBehaviour
             return false;
     }
 
-    // If the Reset Button is clicked reload the level
-    private void ReloadCurrentLevel()
-    {
-        Scene CurrentScene = SceneManager.GetActiveScene();
-
-        SceneManager.LoadScene(CurrentScene.name);
-    }
-
-    // Load the next level
-    private void LoadNextLevel()
-    {
-        Scene CurrentScene = SceneManager.GetActiveScene();
-        
-        // Find next scene
-        // Load next scene
-    }
     // Seriously, do you need this explained?
     void QuitGame()
     {
