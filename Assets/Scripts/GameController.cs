@@ -206,20 +206,6 @@ public class GameController : MonoBehaviour
             GameLevelTimer.isPaused = false;
         }
 
-        //#region // Check for a mouse press on the Retry Button and reload the level
-        //if (RetryButton.isActiveAndEnabled)
-        //{
-        //    RetryButton.onClick.AddListener(ReloadCurrentLevel);
-        //}
-        //#endregion
-
-
-        //#region // Check for mouse press on the Next Level Button and load the next level
-        //if (NextLevelButton.isActiveAndEnabled)
-        //{
-        //    NextLevelButton.onClick.AddListener(LevelManager.LoadNextLevel);
-        //}
-        //#endregion
     }
 
     // Check for a collision between any piece of bacon and the Finished Pieces box
@@ -294,14 +280,6 @@ public class GameController : MonoBehaviour
         else
             return false;
     }
-
-    //// If the Reset Button is clicked reload the level
-    //private void ReloadCurrentLevel()
-    //{
-    //    Scene CurrentScene = SceneManager.GetActiveScene();
-
-    //    SceneManager.LoadScene(CurrentScene.name);
-    //}
 
     // Seriously, do you need this explained?
     void QuitGame()

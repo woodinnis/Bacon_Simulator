@@ -39,7 +39,7 @@ public class LevelManager : MonoBehaviour {
         if (NextSceneIndex < GameLevels.Length)
         {
             
-            SceneManager.LoadScene(GameLevels[NextSceneIndex], LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(GameLevels[NextSceneIndex], LoadSceneMode.Single);
 
         }
         else
@@ -48,12 +48,11 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    // If the Reset Button is clicked reload the level
+    // Reload the level
     public void ReloadCurrentLevel()
     {
         Scene CurrentScene = SceneManager.GetActiveScene();
 
-        SceneManager.LoadScene(CurrentScene.name);
     }
 
 
