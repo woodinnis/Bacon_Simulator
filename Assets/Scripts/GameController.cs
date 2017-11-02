@@ -71,6 +71,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        
         //  Set standard time scale
         Time.timeScale = 1;
 
