@@ -214,12 +214,12 @@ public class GameController : MonoBehaviour
         #endregion
 
 
-        #region // Check for mouse press on the Next Level Button and load the next level
-        if (NextLevelButton.isActiveAndEnabled)
-        {
-            NextLevelButton.onClick.AddListener(LevelManager.LoadNextLevel);
-        }
-        #endregion
+        //#region // Check for mouse press on the Next Level Button and load the next level
+        //if (NextLevelButton.isActiveAndEnabled)
+        //{
+        //    NextLevelButton.onClick.AddListener(LevelManager.LoadNextLevel);
+        //}
+        //#endregion
     }
 
     // Check for a collision between any piece of bacon and the Finished Pieces box
