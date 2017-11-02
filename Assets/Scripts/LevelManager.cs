@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour {
 
         if (NextSceneIndex <= GameLevels.Length)
         {
-            SceneManager.LoadScene(GameLevels[NextSceneIndex], LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(GameLevels[NextSceneIndex], LoadSceneMode.Single);
         }
         else
         {
