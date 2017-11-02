@@ -53,6 +53,7 @@ public class LevelManager : MonoBehaviour {
     {
         Scene CurrentScene = SceneManager.GetActiveScene();
 
+        SceneManager.LoadSceneAsync(CurrentScene.name, LoadSceneMode.Single);
     }
 
 
